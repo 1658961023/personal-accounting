@@ -1,4 +1,4 @@
-package com.edu.nchu.service;
+package com.edu.nchu.service.user;
 
 import java.util.Map;
 
@@ -14,6 +14,6 @@ import java.util.Map;
  *********************************************************/
 public interface LoginService {
 
-    String login(String acct, String password, Map<String,String> map);
+    boolean check(String acct, String password);
 }
 

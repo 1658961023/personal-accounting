@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.edu.nchu.mapper.AcctRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.edu.nchu.entity.AcctRecord" >
+    <id column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+    <result column="budget_type" property="budgetType" jdbcType="SMALLINT" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="DATE" />
+    <result column="summary" property="summary" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    serial_no, budget_type, category, amount, date, summary
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_acct_record
+    where serial_no = #{serialNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_acct_record
+    where serial_no = #{serialNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.edu.nchu.entity.AcctRecord" >
+    insert into t_acct_record (serial_no, budget_type, category, 
+      amount, date, summary)
+    values (#{serialNo,jdbcType=VARCHAR}, #{budgetType,jdbcType=SMALLINT}, #{category,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{summary,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.edu.nchu.entity.AcctRecord" >
+    insert into t_acct_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="serialNo != null" >
+        serial_no,
+      </if>
+      <if test="budgetType != null" >
+        budget_type,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="summary != null" >
+        summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="serialNo != null" >
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetType != null" >
+        #{budgetType,jdbcType=SMALLINT},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edu.nchu.entity.AcctRecord" >
+    update t_acct_record
+    <set >
+      <if test="budgetType != null" >
+        budget_type = #{budgetType,jdbcType=SMALLINT},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=DATE},
+      </if>
+      <if test="summary != null" >
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where serial_no = #{serialNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edu.nchu.entity.AcctRecord" >
+    update t_acct_record
+    set budget_type = #{budgetType,jdbcType=SMALLINT},
+      category = #{category,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=INTEGER},
+      date = #{date,jdbcType=DATE},
+      summary = #{summary,jdbcType=VARCHAR}
+    where serial_no = #{serialNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

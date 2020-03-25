@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.edu.nchu.mapper.BudgetMapper" >
+  <resultMap id="BaseResultMap" type="com.edu.nchu.entity.Budget" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="budget_amount" property="budgetAmount" jdbcType="VARCHAR" />
+    <result column="date_type" property="dateType" jdbcType="SMALLINT" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="total_amount" property="totalAmount" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="d_amount" property="dAmount" jdbcType="VARCHAR" />
+    <result column="expire_flag" property="expireFlag" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, budget_amount, date_type, start_date, end_date, total_amount, category, d_amount, 
+    expire_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_budget
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_budget
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.edu.nchu.entity.Budget" >
+    insert into t_budget (id, budget_amount, date_type, 
+      start_date, end_date, total_amount, 
+      category, d_amount, expire_flag
+      )
+    values (#{id,jdbcType=INTEGER}, #{budgetAmount,jdbcType=VARCHAR}, #{dateType,jdbcType=SMALLINT}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{totalAmount,jdbcType=VARCHAR}, 
+      #{category,jdbcType=VARCHAR}, #{dAmount,jdbcType=VARCHAR}, #{expireFlag,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.edu.nchu.entity.Budget" >
+    insert into t_budget
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="budgetAmount != null" >
+        budget_amount,
+      </if>
+      <if test="dateType != null" >
+        date_type,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="totalAmount != null" >
+        total_amount,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="dAmount != null" >
+        d_amount,
+      </if>
+      <if test="expireFlag != null" >
+        expire_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="budgetAmount != null" >
+        #{budgetAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="dateType != null" >
+        #{dateType,jdbcType=SMALLINT},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="totalAmount != null" >
+        #{totalAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="dAmount != null" >
+        #{dAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="expireFlag != null" >
+        #{expireFlag,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edu.nchu.entity.Budget" >
+    update t_budget
+    <set >
+      <if test="budgetAmount != null" >
+        budget_amount = #{budgetAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="dateType != null" >
+        date_type = #{dateType,jdbcType=SMALLINT},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="totalAmount != null" >
+        total_amount = #{totalAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="dAmount != null" >
+        d_amount = #{dAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="expireFlag != null" >
+        expire_flag = #{expireFlag,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edu.nchu.entity.Budget" >
+    update t_budget
+    set budget_amount = #{budgetAmount,jdbcType=VARCHAR},
+      date_type = #{dateType,jdbcType=SMALLINT},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      total_amount = #{totalAmount,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      d_amount = #{dAmount,jdbcType=VARCHAR},
+      expire_flag = #{expireFlag,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

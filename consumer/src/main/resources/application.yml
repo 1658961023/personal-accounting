@@ -9,3 +9,5 @@ spring:
       address: zookeeper://localhost
       port: 2181
     scan: com.edu.nchu.controller   #扫描需要暴露的服务
+  thymeleaf:
+    cache: false

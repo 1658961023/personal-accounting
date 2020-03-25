@@ -10,4 +10,12 @@ spring:
     protocol:
       name: dubbo
       port: 20890 #dubbo服务暴露的端口
-    scan: com.edu.nchu.service.impl #扫描的包名
+    scan: com.edu.nchu.service #扫描的包名
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/personal_accounting?serverTimezone=Asia/Shanghai
+    username: root
+    password: guofofu
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  mapper-locations:
+    - classpath*:mapperXml/*Mapper.xml

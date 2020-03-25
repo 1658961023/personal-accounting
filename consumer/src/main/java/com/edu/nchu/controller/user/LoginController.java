@@ -1,12 +1,13 @@
-package com.edu.nchu.controller;
+package com.edu.nchu.controller.user;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.edu.nchu.service.LoginService;
+import com.edu.nchu.service.user.LoginService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /*********************************************************
@@ -25,14 +26,21 @@ public class LoginController {
     @Reference(version = "1.0")
     private LoginService loginService;
 
-    @PostMapping(value = "/login")
+    @PostMapping("/login")
     private String login(@RequestParam String acct,
                          @RequestParam String password,
-                         Map<String,String> map){
-        return loginService.login(acct,password,map);
+                         Map<String, String> map,
+                         HttpSession session) {
+        if (loginService.check(acct, password)) {
+            session.setAttribute("user", acct);
+            return "index";
+        }
+        map.put("msg", "账号或密码错误");
+        return "login";
     }
 
-    @RequestMapping({"/","/login"})
-    private String login () {return "login";}
-
+    @RequestMapping({"/", "/login"})
+    private String login() {
+        return "login";
+    }
 }

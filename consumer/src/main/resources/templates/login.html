@@ -28,32 +28,28 @@
         <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
     </header>
     <div class="form-content">
+        <form id="loginForm" th:action="@{/login}" method="post">
         <ul>
             <li>
                 <div class="form-group">
                     <label class="control-label">用户账号：</label>
-                    <input type="text" placeholder="账号..." class="form-control form-underlined" id="adminName"/>
+                    <input type="text" th:name="acct" placeholder="账号..." class="form-control form-underlined" id="adminName"/>
                 </div>
             </li>
             <li>
                 <div class="form-group">
                     <label class="control-label">用户密码：</label>
-                    <input type="password" placeholder="    密码..." class="form-control form-underlined" id="adminPwd"/>
+                    <input type="password" th:name="password" placeholder="密码..." class="form-control form-underlined" id="adminPwd"/>
                 </div>
-            </li>
-            <li>
-                <label class="check-box">
-                    <input type="checkbox" name="remember"/>
-                    <span>记住账号密码</span>
-                </label>
             </li>
             <li>
                 <button class="btn btn-lg btn-block" id="entry">立即登录</button>
             </li>
             <li>
-                <a href="registe">用户注册</a>
+                <a href="register">用户注册</a>
             </li>
         </ul>
+        </form>
     </div>
 </section>
 </body>

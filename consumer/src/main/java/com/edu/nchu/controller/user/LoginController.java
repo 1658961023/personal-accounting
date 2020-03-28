@@ -43,4 +43,10 @@ public class LoginController {
     private String login() {
         return "login";
     }
+
+    @RequestMapping("/loginOut")
+    private String loginOut(HttpSession session){
+        session.invalidate();
+        return "login";
+    }
 }

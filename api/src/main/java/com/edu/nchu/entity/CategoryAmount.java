@@ -1,6 +1,8 @@
 package com.edu.nchu.entity;
 
-public class CategoryAmount {
+import java.io.Serializable;
+
+public class CategoryAmount implements Serializable {
     private String category;
 
     private String amount;

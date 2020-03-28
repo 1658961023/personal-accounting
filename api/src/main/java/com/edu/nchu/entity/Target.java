@@ -1,17 +1,18 @@
 package com.edu.nchu.entity;
 
-import java.util.Date;
 
-public class Target {
+import java.io.Serializable;
+
+public class Target implements Serializable {
     private Integer id;
 
     private String targetAmount;
 
     private Short dateType;
 
-    private Date startDate;
+    private String startDate;
 
-    private Date endDate;
+    private String endDate;
 
     private String totalAmount;
 
@@ -19,7 +20,7 @@ public class Target {
 
     private String dAmount;
 
-    private Short expireFlag;
+    private int expireFlag;
 
     public Integer getId() {
         return id;
@@ -45,19 +46,19 @@ public class Target {
         this.dateType = dateType;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -85,7 +86,7 @@ public class Target {
         this.dAmount = dAmount == null ? null : dAmount.trim();
     }
 
-    public Short getExpireFlag() {
+    public int getExpireFlag() {
         return expireFlag;
     }
 

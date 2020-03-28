@@ -1,17 +1,18 @@
 package com.edu.nchu.entity;
 
-import java.util.Date;
 
-public class AcctRecord {
+import java.io.Serializable;
+
+public class AcctRecord implements Serializable {
     private String serialNo;
 
-    private Short budgetType;
+    private int budgetType;
 
     private String category;
 
     private Integer amount;
 
-    private Date date;
+    private String date;
 
     private String summary;
 
@@ -23,11 +24,11 @@ public class AcctRecord {
         this.serialNo = serialNo == null ? null : serialNo.trim();
     }
 
-    public Short getBudgetType() {
+    public int getBudgetType() {
         return budgetType;
     }
 
-    public void setBudgetType(Short budgetType) {
+    public void setBudgetType(int budgetType) {
         this.budgetType = budgetType;
     }
 
@@ -47,11 +48,11 @@ public class AcctRecord {
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

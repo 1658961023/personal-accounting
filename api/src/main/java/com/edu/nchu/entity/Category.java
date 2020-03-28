@@ -1,11 +1,13 @@
 package com.edu.nchu.entity;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
     private Integer id;
 
     private String name;
 
-    private Short budgetType;
+    private int budgetType;
 
     public Integer getId() {
         return id;
@@ -23,7 +25,7 @@ public class Category {
         this.name = name == null ? null : name.trim();
     }
 
-    public Short getBudgetType() {
+    public int getBudgetType() {
         return budgetType;
     }
 

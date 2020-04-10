@@ -7,7 +7,7 @@ public class Category implements Serializable {
 
     private String name;
 
-    private int budgetType;
+    private String budgetType;
 
     public Integer getId() {
         return id;
@@ -25,11 +25,11 @@ public class Category implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public int getBudgetType() {
+    public String getBudgetType() {
         return budgetType;
     }
 
-    public void setBudgetType(Short budgetType) {
+    public void setBudgetType(String budgetType) {
         this.budgetType = budgetType;
     }
 }

@@ -68,4 +68,18 @@
       budget_type = #{budgetType,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByType" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from t_category
+  where budget_type = #{budgetType}
+</select>
+  <select id="selectAllCategory" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_category limit #{arg0},#{arg1}
+  </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(*) from t_category
+  </select>
 </mapper>

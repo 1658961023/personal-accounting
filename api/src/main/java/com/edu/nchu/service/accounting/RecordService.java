@@ -2,6 +2,8 @@ package com.edu.nchu.service.accounting;
 
 import com.edu.nchu.entity.AcctRecord;
 
+import java.util.List;
+
 /*********************************************************
  @author guoff16201210
   * <p> 文件名称： RecordService
@@ -14,6 +16,16 @@ import com.edu.nchu.entity.AcctRecord;
  *********************************************************/
 public interface RecordService {
 
-    String addRecord(AcctRecord acctRecord);
+    void addRecord(AcctRecord acctRecord);
+
+    List<AcctRecord> getRecordsPage(int start,int pagesize);
+
+    void deleteRecord(String serialNo);
+
+    AcctRecord getByPrimaryKey(String serialNo);
+
+    void update(AcctRecord acctRecord);
+
+    int getCount();
 }
 

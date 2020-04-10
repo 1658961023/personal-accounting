@@ -101,4 +101,19 @@
       summary = #{summary,jdbcType=VARCHAR}
     where serial_no = #{serialNo,jdbcType=VARCHAR}
   </update>
+  <!--<select id="selectByDate" resultMap="BaseResultMap">-->
+    <!--select -->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from t_acct_record-->
+    <!--where 1=1-->
+    <!--<if test="yearMonth != null and yearMonth != '' "> and #{yearMonth}=substr(date,1,7)</if>-->
+  <!--</select>-->
+  <select id="selectPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_acct_record limit #{param1},#{param2}
+  </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(*) from t_acct_record
+  </select>
 </mapper>

@@ -8,7 +8,7 @@ public class Budget implements Serializable {
 
     private String budgetAmount;
 
-    private int dateType;
+    private String dateType;
 
     private String startDate;
 
@@ -20,7 +20,7 @@ public class Budget implements Serializable {
 
     private String dAmount;
 
-    private int expireFlag;
+    private String expireFlag;
 
     public Integer getId() {
         return id;
@@ -38,13 +38,6 @@ public class Budget implements Serializable {
         this.budgetAmount = budgetAmount == null ? null : budgetAmount.trim();
     }
 
-    public int getDateType() {
-        return dateType;
-    }
-
-    public void setDateType(Short dateType) {
-        this.dateType = dateType;
-    }
 
     public String getStartDate() {
         return startDate;
@@ -86,11 +79,19 @@ public class Budget implements Serializable {
         this.dAmount = dAmount == null ? null : dAmount.trim();
     }
 
-    public int getExpireFlag() {
+    public String getDateType() {
+        return dateType;
+    }
+
+    public void setDateType(String dateType) {
+        this.dateType = dateType;
+    }
+
+    public String getExpireFlag() {
         return expireFlag;
     }
 
-    public void setExpireFlag(Short expireFlag) {
+    public void setExpireFlag(String expireFlag) {
         this.expireFlag = expireFlag;
     }
 }

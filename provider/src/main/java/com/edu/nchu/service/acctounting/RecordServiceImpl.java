@@ -6,6 +6,8 @@ import com.edu.nchu.mapper.AcctRecordMapper;
 import com.edu.nchu.service.accounting.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /*********************************************************
  @author guoff16201210
   * <p> 文件名称： RecordServiceImpl
@@ -23,8 +25,34 @@ public class RecordServiceImpl implements RecordService {
     private AcctRecordMapper acctRecordMapper;
 
     @Override
-    public String addRecord(AcctRecord acctRecord) {
+    public void addRecord(AcctRecord acctRecord) {
+        acctRecord.setSerialNo(String.valueOf(System.currentTimeMillis()));
         acctRecordMapper.insert(acctRecord);
-        return "redirect:index";
     }
+
+    @Override
+    public List<AcctRecord> getRecordsPage(int start,int pagesize) {
+        return acctRecordMapper.selectPage(start,pagesize);
+    }
+
+    @Override
+    public void deleteRecord(String serilaNo) {
+        acctRecordMapper.deleteByPrimaryKey(serilaNo);
+    }
+
+    @Override
+    public AcctRecord getByPrimaryKey(String serialNo) {
+        return acctRecordMapper.selectByPrimaryKey(serialNo);
+    }
+
+    @Override
+    public void update(AcctRecord acctRecord) {
+        acctRecordMapper.updateByPrimaryKeySelective(acctRecord);
+    }
+
+    @Override
+    public int getCount() {
+        return acctRecordMapper.getCount()/10+1;
+    }
+
 }

@@ -1,5 +1,5 @@
 server:
-  port: 1234
+  port: 12306
 spring:
   dubbo:
     application:
@@ -19,3 +19,5 @@ spring:
 mybatis:
   mapper-locations:
     - classpath*:mapperXml/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

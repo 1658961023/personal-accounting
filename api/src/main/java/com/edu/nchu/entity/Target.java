@@ -8,7 +8,7 @@ public class Target implements Serializable {
 
     private String targetAmount;
 
-    private Short dateType;
+    private String dateType;
 
     private String startDate;
 
@@ -20,7 +20,7 @@ public class Target implements Serializable {
 
     private String dAmount;
 
-    private int expireFlag;
+    private String expireFlag;
 
     public Integer getId() {
         return id;
@@ -36,14 +36,6 @@ public class Target implements Serializable {
 
     public void setTargetAmount(String targetAmount) {
         this.targetAmount = targetAmount == null ? null : targetAmount.trim();
-    }
-
-    public Short getDateType() {
-        return dateType;
-    }
-
-    public void setDateType(Short dateType) {
-        this.dateType = dateType;
     }
 
     public String getStartDate() {
@@ -86,11 +78,15 @@ public class Target implements Serializable {
         this.dAmount = dAmount == null ? null : dAmount.trim();
     }
 
-    public int getExpireFlag() {
+    public void setDateType(String dateType) {
+        this.dateType = dateType;
+    }
+
+    public String getExpireFlag() {
         return expireFlag;
     }
 
-    public void setExpireFlag(Short expireFlag) {
+    public void setExpireFlag(String expireFlag) {
         this.expireFlag = expireFlag;
     }
 }

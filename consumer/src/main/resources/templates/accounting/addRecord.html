@@ -17,7 +17,7 @@
     <script th:src="@{editor/ueditor.config.js}"></script>
     <script th:src="@{editor/ueditor.all.js}"></script>
     <script th:src="@{javascript/plug-ins/pagination.js}"></script>
-    <script th:src="@{javascript/public.js}"></script>
+    <script th:src="@{javascript/pages/getCategory.js}"></script>
 </head>
 <body>
 <div class="main-wrap">
@@ -58,8 +58,6 @@
                 <div class="form-label">分类：</div>
                 <div class="form-cont">
                     <select th:name="category" style="width:auto;">
-                        <option>饮食</option>
-                        <option>服饰</option>
                     </select>
                 </div>
             </div>
@@ -70,9 +68,9 @@
                 </div>
             </div>
             <div class="form-group-col-2">
-                <div class="form-label">摘要：</div>
+                <div class="form-label">备注：</div>
                 <div class="form-cont">
-                    <textarea th:name="summary" class="form-control form-boxed">摘要信息</textarea>
+                    <textarea th:name="summary" class="form-control form-boxed"></textarea>
                 </div>
             </div>
             <div class="form-group-col-2">

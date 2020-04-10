@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>分类管理</title>
+    <link rel="icon" th:href="@{images/icon/favicon.ico}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}"/>
+    <script th:src="@{javascript/jquery.js}"></script>
+    <script th:src="@{javascript/plug-ins/customScrollbar.min.js}"></script>
+    <script th:src="@{javascript/plug-ins/echarts.min.js}"></script>
+    <script th:src="@{javascript/plug-ins/layerUi/layer.js}"></script>
+    <script th:src="@{editor/ueditor.config.js}"></script>
+    <script th:src="@{editor/ueditor.all.js}"></script>
+    <script th:src="@{javascript/plug-ins/pagination.js}"></script>
+    <script th:src="@{javascript/pages/pager.js}"></script>
+    <script th:src="@{javascript/pages/public.js}"></script>
+</head>
+<body>
+<div class="main-wrap">
+    <div class="side-nav" th:insert="~{index::part_side}">
+    </div>
+    <div class="content-wrap">
+        <header class="top-hd" th:insert="~{index::part_top}">
+        </header>
+        <main class="main-cont content mCustomScrollbar">
+            <!--开始::内容-->
+            <section class="page-hd">
+                <span>
+                <button id="export" class="btn btn-secondary radius">导出Excel</button>
+                <button id="open_btn" class="btn btn-secondary radius">导入Excel</button>
+                </span>
+            </section>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>收支类型</th>
+                    <th>分类</th>
+                    <th>金额</th>
+                    <th>日期</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="cen" th:each="record:${records}">
+                    <td th:text="${record.budgetType}==0?'收入':'支出'"></td>
+                    <td th:text="${record.category}"></td>
+                    <td th:text="${record.amount}"></td>
+                    <td th:text="${record.date}"></td>
+                    <td th:text="${record.summary}"></td>
+                    <td>
+                        <a th:href="@{editRecord?serialNo=}+${record.serialNo}" title="编辑">编辑</a>
+                        <a th:href="@{deleteRecord?serialNo=}+${record.serialNo}" title="删除">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel panel-default">
+                <div class="panel-bd">
+                    <div class="pagination">
+                        <input type="hidden" id="curPage" th:value="${curPage}">
+                        <input type="hidden" id="count" th:value="${count}">
+                        <a id="last" class="nextPage">上一页</a>
+                        <span th:each="i:${#numbers.sequence(1,count)}">
+                            <span th:if="${curPage eq i}" class="current">[[${i}]]</span>
+                            <a th:unless="${curPage eq i}" th:text="${i}" th:href="@{'allRecordsPage?curPage='+${i}+'&pagesize=10'}" class="pcdNumber"></a>
+                        </span>
+                        <a id="next" class="nextPage">下一页</a>
+                    </div>
+                </div>
+            </div>
+            <!--开始::结束-->
+
+        </main>
+    </div>
+</div>
+<div id="fade" style="width:100%;
+    height:100%;
+    background:rgba(0, 0, 0, 0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99;
+    display: none;"></div>
+<div id="succ-pop" style="width: 400px;
+    height: 300px;
+    background: #fff;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -200px;
+    margin-top: -150px;
+    z-index: 999;
+    border-radius: 5px;
+    display: none;">
+    <form th:action="import" method="post" enctype="multipart/form-data">
+        <div class="form-group-col-2">
+            <input type="file" name="file" class="form-control form-boxed"/>
+        </div>
+        <div class="form-group-col-2">
+            <div class="form-label"></div>
+            <div class="form-cont">
+                <input type="submit" class="btn btn-primary" value="添加"/>
+                <input id="cancel" type="button" class="btn btn-primary" value="取消"/>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

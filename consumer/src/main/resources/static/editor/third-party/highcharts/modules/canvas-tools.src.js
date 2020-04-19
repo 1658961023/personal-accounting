@@ -314,9 +314,9 @@ if(!Array.prototype.indexOf){
 }
 
 (function(){
-	// canvg(target, s)
+	// canvg(budgetTarget, s)
 	// empty parameters: replace all 'svg' elements on page with 'canvas' elements
-	// target: canvas element or the id of a canvas element
+	// budgetTarget: canvas element or the id of a canvas element
 	// s: svg string, url to svg file, or xml document
 	// opts: optional hash of options
 	//		 ignoreMouse: true => ignore mouse events

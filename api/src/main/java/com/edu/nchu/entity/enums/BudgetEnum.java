@@ -14,7 +14,9 @@ public enum BudgetEnum implements MyEnum {
 
     //收支类型枚举
     INCOME("0","收入"),
-    EXPEND("1","支出");
+    EXPEND("1","支出"),
+    BUDGET("budget","预算"),
+    TARGET("target","目标");
     private final String code;
     private final String description;
 

@@ -101,19 +101,31 @@
       summary = #{summary,jdbcType=VARCHAR}
     where serial_no = #{serialNo,jdbcType=VARCHAR}
   </update>
-  <!--<select id="selectByDate" resultMap="BaseResultMap">-->
-    <!--select -->
-    <!--<include refid="Base_Column_List" />-->
-    <!--from t_acct_record-->
-    <!--where 1=1-->
-    <!--<if test="yearMonth != null and yearMonth != '' "> and #{yearMonth}=substr(date,1,7)</if>-->
-  <!--</select>-->
   <select id="selectPage" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from t_acct_record limit #{param1},#{param2}
+    from t_acct_record limit #{param1},#{param2} order by date desc
   </select>
   <select id="getCount" resultType="java.lang.Integer">
     select count(*) from t_acct_record
+  </select>
+  <select id="getChartData" resultMap="BaseResultMap">
+  select
+  serial_no,budget_type,category,sum(amount) as amount,date,summary
+  from t_acct_record
+  where 1=1
+  <if test="month!=null and month!='' ">
+      and #{month}=substr(date,1,7)
+  </if>
+ and #{budgetType}=budget_type group by category
+  <if test="chartType=='line'">
+      ,date
+  </if>
+    order by amount desc
+  </select>
+  <select id="selectAll" resultType="com.edu.nchu.entity.AcctRecord">
+    select
+    <include refid="Base_Column_List"/>
+    from t_acct_record
   </select>
 </mapper>

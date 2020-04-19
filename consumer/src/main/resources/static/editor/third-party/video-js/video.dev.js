@@ -63,7 +63,7 @@ var vjs = function(id, options, ready){
 var videojs = vjs;
 window.videojs = window.vjs = vjs;
 
-// CDN Version. Used to target right flash swf.
+// CDN Version. Used to budgetTarget right flash swf.
 vjs.CDN_VERSION = '4.3';
 vjs.ACCESS_PROTOCOL = ('https:' == document.location.protocol ? 'https://' : 'http://');
 
@@ -538,9 +538,9 @@ vjs.trigger = function(elem, event) {
   } else if (!parent && !event.isDefaultPrevented()) {
     var targetData = vjs.getData(event.target);
 
-    // Checks if the target has a default action for this event.
+    // Checks if the budgetTarget has a default action for this event.
     if (event.target[event.type]) {
-      // Temporarily disables event dispatching on the target as we have already executed the handler.
+      // Temporarily disables event dispatching on the budgetTarget as we have already executed the handler.
       targetData.disabled = true;
       // Executes the default action.
       if (typeof event.target[event.type] === 'function') {
@@ -571,7 +571,7 @@ vjs.trigger = function(elem, event) {
 
   // // Clean up the event in case it is being reused
   // event.result = undefined;
-  // event.target = elem;
+  // event.budgetTarget = elem;
 };
 
 /**
@@ -2125,7 +2125,7 @@ vjs.Component.prototype.emitTapEvents = function(){
   noTap = function(){
     couldBeTap = false;
   };
-  // TODO: Listen to the original target. http://youtu.be/DujfpXOKUp8?t=13m8s
+  // TODO: Listen to the original budgetTarget. http://youtu.be/DujfpXOKUp8?t=13m8s
   this.on('touchmove', noTap);
   this.on('touchleave', noTap);
   this.on('touchcancel', noTap);
@@ -2142,7 +2142,7 @@ vjs.Component.prototype.emitTapEvents = function(){
         this.trigger('tap');
         // It may be good to copy the touchend event object and change the
         // type to tap, if the other event properties aren't exact after
-        // vjs.fixEvent runs (e.g. event.target)
+        // vjs.fixEvent runs (e.g. event.budgetTarget)
       }
     }
   });

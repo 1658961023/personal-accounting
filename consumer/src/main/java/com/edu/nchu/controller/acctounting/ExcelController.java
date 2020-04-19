@@ -40,30 +40,30 @@ public class ExcelController {
     @RequestMapping("/export")
     public String exporExcel(HttpServletResponse response) throws IOException {
         //todo 是否分页导出或全部导出
-//        ExcelWriter writer = null;
-//        OutputStream outputStream = response.getOutputStream();
-//        try {
-//            response.setContentType("application/vnd.ms-excel");
-//            response.setCharacterEncoding("utf-8");
-//            // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
-//            String fileName = URLEncoder.encode("记账流水", "UTF-8");
-//            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
-//            List<AcctRecord> records = recordService.getRecordsPage();
-//            for (AcctRecord record : records) {
-//                record.setBudgetType(BudgetEnum.INCOME.getCode().equals(record.getBudgetType())?"收入":"支出");
-//            }
-//            EasyExcel.write(response.getOutputStream(), AcctRecord.class).sheet("记账记录").doWrite(records);
-//            writer.finish();
-//            outputStream.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                response.getOutputStream().close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        ExcelWriter writer = null;
+        OutputStream outputStream = response.getOutputStream();
+        try {
+            response.setContentType("application/vnd.ms-excel");
+            response.setCharacterEncoding("utf-8");
+            // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+            String fileName = URLEncoder.encode("记账流水", "UTF-8");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+            List<AcctRecord> records = recordService.selectAll();
+            for (AcctRecord record : records) {
+                record.setBudgetType(BudgetEnum.INCOME.getCode().equals(record.getBudgetType())?"收入":"支出");
+            }
+            EasyExcel.write(response.getOutputStream(), AcctRecord.class).sheet("记账流水").doWrite(records);
+            writer.finish();
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                response.getOutputStream().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return "redirect:allRecords";
     }
 

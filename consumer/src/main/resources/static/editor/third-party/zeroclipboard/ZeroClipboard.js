@@ -1005,7 +1005,7 @@
     return event;
   };
   var _getRelatedTarget = function(targetEl) {
-    var relatedTargetId = targetEl && targetEl.getAttribute && targetEl.getAttribute("data-clipboard-target");
+    var relatedTargetId = targetEl && targetEl.getAttribute && targetEl.getAttribute("data-clipboard-budgetTarget");
     return relatedTargetId ? document.getElementById(relatedTargetId) : null;
   };
   var _preprocessEvent = function(event) {

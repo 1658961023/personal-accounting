@@ -415,7 +415,7 @@
             /**
              * 被[uncurrythis](http://www.2ality.com/2011/11/uncurrying-this.html)的数组slice方法。
              * 将用来将非数组对象转化成数组对象。
-             * @grammar Base.slice( target, start[, end] ) => Array
+             * @grammar Base.slice( budgetTarget, start[, end] ) => Array
              * @method slice
              * @example
              * function doSomthing() {

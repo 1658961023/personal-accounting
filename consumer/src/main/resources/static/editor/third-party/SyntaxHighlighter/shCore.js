@@ -905,7 +905,7 @@ if (typeof(SyntaxHighlighter) == 'undefined') var SyntaxHighlighter = function()
          * 							provided, all elements in the current document
          * 							are returned which qualify.
          *
-         * @return {Array}	Returns list of <code>{ target: DOMElement, params: Object }</code> objects.
+         * @return {Array}	Returns list of <code>{ budgetTarget: DOMElement, params: Object }</code> objects.
          */
         findElements: function(globalParams, element)
         {
@@ -1028,7 +1028,7 @@ if (typeof(SyntaxHighlighter) == 'undefined') var SyntaxHighlighter = function()
     }; // end of sh
 
     /**
-     * Checks if target DOM elements has specified CSS class.
+     * Checks if budgetTarget DOM elements has specified CSS class.
      * @param {DOMElement} target Target DOM element to check.
      * @param {String} className Name of the CSS class to check for.
      * @return {Boolean} Returns true if class name is present, false otherwise.
@@ -1039,7 +1039,7 @@ if (typeof(SyntaxHighlighter) == 'undefined') var SyntaxHighlighter = function()
     };
 
     /**
-     * Adds CSS class name to the target DOM element.
+     * Adds CSS class name to the budgetTarget DOM element.
      * @param {DOMElement} target Target DOM element.
      * @param {String} className New CSS class to add.
      */
@@ -1050,7 +1050,7 @@ if (typeof(SyntaxHighlighter) == 'undefined') var SyntaxHighlighter = function()
     };
 
     /**
-     * Removes CSS class name from the target DOM element.
+     * Removes CSS class name from the budgetTarget DOM element.
      * @param {DOMElement} target Target DOM element.
      * @param {String} className CSS class to remove.
      */
@@ -1257,7 +1257,7 @@ if (typeof(SyntaxHighlighter) == 'undefined') var SyntaxHighlighter = function()
     };
 
     /**
-     * Adds event handler to the target object.
+     * Adds event handler to the budgetTarget object.
      * @param {Object} obj		Target object.
      * @param {String} type		Name of the event.
      * @param {Function} func	Handling function.

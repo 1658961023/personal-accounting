@@ -14,6 +14,7 @@
     <script th:src="@{javascript/plug-ins/pagination.js}"></script>
     <script th:src="@{javascript/pages/pager.js}"></script>
     <script th:src="@{javascript/pages/public.js}"></script>
+    <script th:src="@{javascript/pages/sort.js}"></script>
 </head>
 <body>
 <div class="main-wrap">
@@ -33,21 +34,21 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
-                    <th>收支类型</th>
-                    <th>分类</th>
-                    <th>金额</th>
-                    <th>日期</th>
-                    <th>备注</th>
+                    <th >收支类型 <i id="th0" onclick="SortTable(this)" style="display:inline-block;width: 16px;height:15px;background-image: url(/images/icon/sort.png);"></i></th>
+                    <th >分类 <i id="th1" onclick="SortTable(this)" style="display:inline-block;width: 16px;height:15px;background-image: url(/images/icon/sort.png);"></i></th>
+                    <th >金额 <i id="th2" onclick="SortTable(this)" style="display:inline-block;width: 16px;height:15px;background-image: url(/images/icon/sort.png);"></i></th>
+                    <th >日期 <i id="th3" onclick="SortTable(this)" style="display:inline-block;width: 16px;height:15px;background-image: url(/images/icon/sort.png);"></i></th>
+                    <th >备注 </th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr class="cen" th:each="record:${records}">
-                    <td th:text="${record.budgetType}==0?'收入':'支出'"></td>
-                    <td th:text="${record.category}"></td>
-                    <td th:text="${record.amount}"></td>
-                    <td th:text="${record.date}"></td>
-                    <td th:text="${record.summary}"></td>
+                    <td name="td0" th:text="${record.budgetType}==0?'收入':'支出'"></td>
+                    <td name="td1" th:text="${record.category}"></td>
+                    <td name="td2" th:text="${record.amount}"></td>
+                    <td name="td3" th:text="${record.date}"></td>
+                    <td name="td4" th:text="${record.summary}"></td>
                     <td>
                         <a th:href="@{editRecord?serialNo=}+${record.serialNo}" title="编辑">编辑</a>
                         <a th:href="@{deleteRecord?serialNo=}+${record.serialNo}" title="删除">删除</a>
@@ -106,5 +107,3 @@
         </div>
     </form>
 </div>
-</body>
-</html>

@@ -35,7 +35,15 @@ public class Target implements Serializable {
     }
 
     public void setTargetAmount(String targetAmount) {
-        this.targetAmount = targetAmount == null ? null : targetAmount.trim();
+        this.targetAmount = targetAmount;
+    }
+
+    public String getDateType() {
+        return dateType;
+    }
+
+    public void setDateType(String dateType) {
+        this.dateType = dateType;
     }
 
     public String getStartDate() {
@@ -59,7 +67,7 @@ public class Target implements Serializable {
     }
 
     public void setTotalAmount(String totalAmount) {
-        this.totalAmount = totalAmount == null ? null : totalAmount.trim();
+        this.totalAmount = totalAmount;
     }
 
     public String getCategory() {
@@ -67,7 +75,7 @@ public class Target implements Serializable {
     }
 
     public void setCategory(String category) {
-        this.category = category == null ? null : category.trim();
+        this.category = category;
     }
 
     public String getdAmount() {
@@ -75,11 +83,7 @@ public class Target implements Serializable {
     }
 
     public void setdAmount(String dAmount) {
-        this.dAmount = dAmount == null ? null : dAmount.trim();
-    }
-
-    public void setDateType(String dateType) {
-        this.dateType = dateType;
+        this.dAmount = dAmount;
     }
 
     public String getExpireFlag() {

@@ -14,6 +14,6 @@ public class MyMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginHandlerInterceptor).addPathPatterns("/**").excludePathPatterns("/", "/login","/css/**","/editor/**","/images/*","/javascript/**","/registe");
+        registry.addInterceptor(loginHandlerInterceptor).addPathPatterns("/**").excludePathPatterns("/", "/login","/css/**","/editor/**","/images/*","/javascript/**","/registe","/layui/**");
     }
 }

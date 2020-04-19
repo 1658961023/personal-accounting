@@ -4,10 +4,9 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.edu.nchu.entity.AcctRecord;
 import com.edu.nchu.service.accounting.RecordService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -70,5 +69,13 @@ public class AccountingController {
     private String editDo(AcctRecord acctRecord){
         recordService.update(acctRecord);
         return "redirect:allRecords";
+    }
+
+    @GetMapping("/getDataForChart")
+    @ResponseBody
+    private List<AcctRecord> getChartData(@RequestParam String month,
+                                          @RequestParam String budgetType,
+                                          @RequestParam String chartType){
+        return recordService.getChartData(month,budgetType,chartType);
     }
 }

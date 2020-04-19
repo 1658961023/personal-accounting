@@ -3,6 +3,7 @@ package com.edu.nchu.service.accounting;
 import com.edu.nchu.entity.AcctRecord;
 
 import java.util.List;
+import java.util.Map;
 
 /*********************************************************
  @author guoff16201210
@@ -27,5 +28,9 @@ public interface RecordService {
     void update(AcctRecord acctRecord);
 
     int getCount();
+
+    List<AcctRecord> getChartData(String month, String budgetType,String chartType);
+
+    List<AcctRecord> selectAll();
 }
 

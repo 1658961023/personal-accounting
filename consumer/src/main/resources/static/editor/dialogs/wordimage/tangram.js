@@ -830,7 +830,7 @@ baidu.object = baidu.object || {};
  * @author erik
  * @name baidu.object.extend
  * @function
- * @grammar baidu.object.extend(target, source)
+ * @grammar baidu.object.extend(budgetTarget, source)
  * @param {Object} target 目标对象
  * @param {Object} source 源对象
  * @see baidu.array.merge

@@ -35,9 +35,16 @@ public class Budget implements Serializable {
     }
 
     public void setBudgetAmount(String budgetAmount) {
-        this.budgetAmount = budgetAmount == null ? null : budgetAmount.trim();
+        this.budgetAmount = budgetAmount;
     }
 
+    public String getDateType() {
+        return dateType;
+    }
+
+    public void setDateType(String dateType) {
+        this.dateType = dateType;
+    }
 
     public String getStartDate() {
         return startDate;
@@ -60,7 +67,7 @@ public class Budget implements Serializable {
     }
 
     public void setTotalAmount(String totalAmount) {
-        this.totalAmount = totalAmount == null ? null : totalAmount.trim();
+        this.totalAmount = totalAmount;
     }
 
     public String getCategory() {
@@ -68,7 +75,7 @@ public class Budget implements Serializable {
     }
 
     public void setCategory(String category) {
-        this.category = category == null ? null : category.trim();
+        this.category = category;
     }
 
     public String getdAmount() {
@@ -76,15 +83,7 @@ public class Budget implements Serializable {
     }
 
     public void setdAmount(String dAmount) {
-        this.dAmount = dAmount == null ? null : dAmount.trim();
-    }
-
-    public String getDateType() {
-        return dateType;
-    }
-
-    public void setDateType(String dateType) {
-        this.dateType = dateType;
+        this.dAmount = dAmount;
     }
 
     public String getExpireFlag() {

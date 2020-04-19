@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>分类管理</title>
+    <link rel="icon" th:href="@{images/icon/favicon.ico}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{layui/css/layui.css}"  media="all">
+    <script th:src="@{javascript/jquery.js}"></script>
+    <script th:src="@{javascript/plug-ins/customScrollbar.min.js}"></script>
+    <script th:src="@{javascript/plug-ins/echarts.min.js}"></script>
+    <script th:src="@{javascript/plug-ins/layerUi/layer.js}"></script>
+    <script th:src="@{editor/ueditor.config.js}"></script>
+    <script th:src="@{editor/ueditor.all.js}"></script>
+    <script th:src="@{javascript/plug-ins/pagination.js}"></script>
+    <script th:src="@{javascript/pages/pager.js}"></script>
+    <script th:src="@{javascript/pages/public.js}"></script>
+    <script th:src="@{layui/layui.all.js}"></script>
+    <script th:src="@{javascript/pages/paintCharts.js}"></script>
+</head>
+<body>
+<div class="main-wrap">
+    <div class="side-nav" th:insert="~{index::part_side}">
+    </div>
+    <div class="content-wrap">
+        <header class="top-hd" th:insert="~{index::part_top}">
+        </header>
+        <main class="main-cont content mCustomScrollbar">
+            <!--开始::内容-->
+            <ul class="flex flex-nowrap">
+                <li class="box-child">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">月份</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="test" placeholder="yyyy-MM">
+                        </div>
+                    </div>
+                    <div class="panel panel-primary mr-10" id="income_pie" style="width: 600px;height:400px;">
+                    </div>
+                    <div class="layui-inline">
+                    </div>
+                    <div class="panel panel-primary mr-10" id="income_line" style="width: 600px;height:400px;">
+                    </div>
+                </li>
+                <li class="box-child">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">月份</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="test2" placeholder="yyyy-MM">
+                        </div>
+                    </div>
+                    <div class="panel panel-primary mr-10" id="outcome_pie" style="width: 600px;height:400px;">
+                    </div>
+                    <div class="layui-inline">
+                    </div>
+                    <div class="panel panel-primary mr-10" id="outcome_line" style="width: 600px;height:400px;">
+                    </div>
+                </li>
+            </ul>
+            <!--开始::结束-->
+        </main>
+    </div>
+</div>
+</body>
+</html>

@@ -388,19 +388,19 @@ var utils = UE.utils = {
      * @method extend
      * @remind 该方法将强制把source对象上的属性复制到target对象上
      * @see UE.utils.extend(Object,Object,Boolean)
-     * @param { Object } target 目标对象， 新的属性将附加到该对象上
+     * @param { Object } budgetTarget 目标对象， 新的属性将附加到该对象上
      * @param { Object } source 源对象， 该对象的属性会被附加到target对象上
      * @return { Object } 返回target对象
      * @example
      * ```javascript
      *
-     * var target = { name: 'target', sex: 1 },
+     * var budgetTarget = { name: 'budgetTarget', sex: 1 },
      *      source = { name: 'source', age: 17 };
      *
-     * UE.utils.extend( target, source );
+     * UE.utils.extend( budgetTarget, source );
      *
      * //output: { name: 'source', sex: 1, age: 17 }
-     * console.log( target );
+     * console.log( budgetTarget );
      *
      * ```
      */
@@ -409,20 +409,20 @@ var utils = UE.utils = {
      * 将source对象中的属性扩展到target对象上， 根据指定的isKeepTarget值决定是否保留目标对象中与
      * 源对象属性名相同的属性值。
      * @method extend
-     * @param { Object } target 目标对象， 新的属性将附加到该对象上
+     * @param { Object } budgetTarget 目标对象， 新的属性将附加到该对象上
      * @param { Object } source 源对象， 该对象的属性会被附加到target对象上
      * @param { Boolean } isKeepTarget 是否保留目标对象中与源对象中属性名相同的属性
      * @return { Object } 返回target对象
      * @example
      * ```javascript
      *
-     * var target = { name: 'target', sex: 1 },
+     * var budgetTarget = { name: 'budgetTarget', sex: 1 },
      *      source = { name: 'source', age: 17 };
      *
-     * UE.utils.extend( target, source, true );
+     * UE.utils.extend( budgetTarget, source, true );
      *
-     * //output: { name: 'target', sex: 1, age: 17 }
-     * console.log( target );
+     * //output: { name: 'budgetTarget', sex: 1, age: 17 }
+     * console.log( budgetTarget );
      *
      * ```
      */
@@ -443,20 +443,20 @@ var utils = UE.utils = {
      * @remind 该方法将强制把源对象上的属性复制到target对象上
      * @remind 该方法支持两个及以上的参数， 从第二个参数开始， 其属性都会被复制到第一个参数上。 如果遇到同名的属性，
      *          将会覆盖掉之前的值。
-     * @param { Object } target 目标对象， 新的属性将附加到该对象上
+     * @param { Object } budgetTarget 目标对象， 新的属性将附加到该对象上
      * @param { Object... } source 源对象， 支持多个对象， 该对象的属性会被附加到target对象上
      * @return { Object } 返回target对象
      * @example
      * ```javascript
      *
-     * var target = {},
+     * var budgetTarget = {},
      *     source1 = { name: 'source', age: 17 },
      *     source2 = { title: 'dev' };
      *
-     * UE.utils.extend2( target, source1, source2 );
+     * UE.utils.extend2( budgetTarget, source1, source2 );
      *
      * //output: { name: 'source', age: 17, title: 'dev' }
-     * console.log( target );
+     * console.log( budgetTarget );
      *
      * ```
      */
@@ -11854,13 +11854,13 @@ UE.plugins['font'] = function () {
  * @command link
  * @method execCommand
  * @param { String } cmd 命令字符串
- * @param { Object } options   设置自定义属性，例如：url、title、target
+ * @param { Object } options   设置自定义属性，例如：url、title、budgetTarget
  * @example
  * ```javascript
  * editor.execCommand( 'link', '{
  *     url:'ueditor.baidu.com',
  *     title:'ueditor',
- *     target:'_blank'
+ *     budgetTarget:'_blank'
  * }' );
  * ```
  */
@@ -23446,7 +23446,7 @@ UE.commands['insertparagraph'] = {
  * @command webapp
  * @method execCommand
  * @remind 需要百度APPKey
- * @remind 百度应用主页： <a href="http://app.baidu.com/" target="_blank">http://app.baidu.com/</a>
+ * @remind 百度应用主页： <a href="http://app.baidu.com/" budgetTarget="_blank">http://app.baidu.com/</a>
  * @param { Object } appOptions 应用所需的参数项， 支持的key有： title=>应用标题， width=>应用容器宽度，
  * height=>应用容器高度，logo=>应用logo，url=>应用地址
  * @example
@@ -23566,7 +23566,7 @@ UE.plugin.register('webapp', function (){
              * @command webapp
              * @method execCommand
              * @remind 需要百度APPKey
-             * @remind 百度应用主页： <a href="http://app.baidu.com/" target="_blank">http://app.baidu.com/</a>
+             * @remind 百度应用主页： <a href="http://app.baidu.com/" budgetTarget="_blank">http://app.baidu.com/</a>
              * @param { Object } appOptions 应用所需的参数项， 支持的key有： title=>应用标题， width=>应用容器宽度，
              * height=>应用容器高度，logo=>应用logo，url=>应用地址
              * @example
@@ -24481,7 +24481,7 @@ UE.plugin.register('simpleupload', function (){
             btnIframeBody = btnIframeDoc.body;
             wrapper = btnIframeDoc.createElement('div');
 
-            wrapper.innerHTML = '<form id="edui_form_' + timestrap + '" target="edui_iframe_' + timestrap + '" method="POST" enctype="multipart/form-data" action="' + me.getOpt('serverUrl') + '" ' +
+            wrapper.innerHTML = '<form id="edui_form_' + timestrap + '" budgetTarget="edui_iframe_' + timestrap + '" method="POST" enctype="multipart/form-data" action="' + me.getOpt('serverUrl') + '" ' +
             'style="' + btnStyle + '">' +
             '<input id="edui_input_' + timestrap + '" type="file" accept="image/*" name="' + me.options.imageFieldName + '" ' +
             'style="' + btnStyle + '">' +
@@ -28931,7 +28931,7 @@ UE.ui = baidu.editor.ui = {};
                                 html += '<div style="height:5px;"></div>'
                             }
                             html += popup.formatHtml(
-                                '<nobr>' + editor.getLang("anthorMsg") + ': <a target="_blank" href="' + url + '" title="' + url + '" >' + txt + '</a>' +
+                                '<nobr>' + editor.getLang("anthorMsg") + ': <a budgetTarget="_blank" href="' + url + '" title="' + url + '" >' + txt + '</a>' +
                                     ' <span class="edui-clickable" onclick="$$._onEditButtonClick();">' + editor.getLang("modify") + '</span>' +
                                     ' <span class="edui-clickable" onclick="$$._onRemoveButtonClick(\'unlink\');"> ' + editor.getLang("clear") + '</span></nobr>');
                             popup.showAnchor(link);

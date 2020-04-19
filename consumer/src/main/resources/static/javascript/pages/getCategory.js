@@ -7,7 +7,7 @@ $(function () {
         success: function (data) {
             selector.empty();
             for (var i = 0; i < data.length; i++) {
-                $('select[name="category"]').append('<option value="' + data[i].name + '">' + data[i].name + '</option>');
+                selector.append('<option value="' + data[i].name + '">' + data[i].name + '</option>');
             }
         }
     });
@@ -21,7 +21,7 @@ $(function () {
                 success: function (data) {
                     selector.empty();
                     for (var i = 0; i < data.length; i++) {
-                        $('select[name="category"]').append('<option value="' + data[i].name + '">' + data[i].name + '</option>');
+                        selector.append('<option value="' + data[i].name + '">' + data[i].name + '</option>');
                     }
                 }
             })
@@ -34,7 +34,7 @@ $(function () {
                 success: function (data) {
                     selector.empty();
                     for (var i = 0; i < data.length; i++) {
-                        $('select[name="category"]').append('<option value="' + data[i].name + '">' + data[i].name + '</option>');
+                        selector.append('<option value="' + data[i].name + '">' + data[i].name + '</option>');
                     }
                 }
             })

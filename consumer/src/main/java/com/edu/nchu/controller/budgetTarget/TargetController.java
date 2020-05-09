@@ -1,6 +1,7 @@
 package com.edu.nchu.controller.budgetTarget;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.edu.nchu.entity.User;
 import com.edu.nchu.entity.enums.BudgetEnum;
 import com.edu.nchu.entity.enums.DateTypeEnum;
 import com.edu.nchu.service.budgetTarget.BudgetTargetService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -30,35 +32,41 @@ public class TargetController {
     private BudgetTargetService budgetTargetService;
 
     @RequestMapping("/budgetTarget")
-    private String budgetTarget(Map<String,Object> map){
-        map.put("budget",budgetTargetService.getBudget(DateTypeEnum.MONTH.getCode(),"2020-04-07"));
-        map.put("target",budgetTargetService.getTarget(DateTypeEnum.MONTH.getCode(),"2020-04-07"));
+    private String budgetTarget(Map<String,Object> map,
+                                HttpSession session){
+        User user = (User) session.getAttribute("user");
+        map.put("budget",budgetTargetService.getBudget(DateTypeEnum.MONTH.getCode(),user.getAcct()));
+        map.put("target",budgetTargetService.getTarget(DateTypeEnum.MONTH.getCode(),user.getAcct()));
         return "budgetTarget/budgetTarget";
     }
 
     @GetMapping("/getBudgetForChart")
     @ResponseBody
     private Object getBudgetTarget(@RequestParam String month,
-                                   @RequestParam String budgetTarget){
+                                   @RequestParam String budgetTarget,
+                                   HttpSession session){
+        User user = (User) session.getAttribute("user");
         if(BudgetEnum.BUDGET.getCode().equals(budgetTarget)){
-            return budgetTargetService.getBudget(DateTypeEnum.MONTH.getCode(),"2020-04-07");
+            return budgetTargetService.getBudget(DateTypeEnum.MONTH.getCode(),user.getAcct());
         }
-        return budgetTargetService.getTarget(DateTypeEnum.MONTH.getCode(),"2020-04-07");
+        return budgetTargetService.getTarget(DateTypeEnum.MONTH.getCode(),user.getAcct());
     }
 
     @RequestMapping("editBudget")
     private String editBudget(@RequestParam String budgetAmount,
                               @RequestParam String dateType,
-                              @RequestParam String month){
-        budgetTargetService.editBudget(budgetAmount,dateType,month);
+                              HttpSession session){
+        User user = (User) session.getAttribute("user");
+        budgetTargetService.editBudget(budgetAmount,dateType,user.getAcct());
         return "redirect:budgetTarget";
     }
 
     @RequestMapping("editTarget")
     private String editTarget(@RequestParam String targetAmount,
                               @RequestParam String dateType,
-                              @RequestParam String month){
-        budgetTargetService.editTarget(targetAmount,dateType,month);
+                              HttpSession session){
+        User user = (User) session.getAttribute("user");
+        budgetTargetService.editTarget(targetAmount,dateType,user.getAcct());
         return "redirect:budgetTarget";
     }
 }

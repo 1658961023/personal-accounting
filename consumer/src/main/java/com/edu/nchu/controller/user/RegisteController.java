@@ -30,7 +30,13 @@ public class RegisteController {
                            @RequestParam String password,
                            @RequestParam String nickname,
                            Map<String,String> map) {
-        return registeService.register(acct,password,nickname,map);
+        String url = registeService.register(acct,password,nickname);
+        if(("register").equals(url)){
+            map.put("msg","账号已被使用，注册失败");
+        }else {
+            map.put("msg","注册成功！");
+        }
+        return url;
     }
 
     @RequestMapping("/register")

@@ -2,6 +2,7 @@ package com.edu.nchu.controller.user;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.edu.nchu.service.user.LoginService;
+import com.edu.nchu.service.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,13 +27,16 @@ public class LoginController {
     @Reference(version = "1.0")
     private LoginService loginService;
 
+    @Reference
+    private UserService userService;
+
     @PostMapping("/login")
     private String login(@RequestParam String acct,
                          @RequestParam String password,
                          Map<String, String> map,
                          HttpSession session) {
         if (loginService.check(acct, password)) {
-            session.setAttribute("user", acct);
+            session.setAttribute("user", userService.getUserByAcct(acct));
             return "index";
         }
         map.put("msg", "账号或密码错误");

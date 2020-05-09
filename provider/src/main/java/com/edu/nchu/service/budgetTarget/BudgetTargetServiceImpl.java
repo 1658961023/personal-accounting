@@ -7,6 +7,7 @@ import com.edu.nchu.mapper.BudgetMapper;
 import com.edu.nchu.mapper.TargetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /*********************************************************
@@ -29,26 +30,34 @@ public class BudgetTargetServiceImpl implements BudgetTargetService{
     private TargetMapper targetMapper;
 
     @Override
-    public Budget getBudget(String dateType,String startDate) {
-        return budgetMapper.selectSelective(dateType, startDate);
+    public Budget getBudget(String dateType,String acct) {
+        return budgetMapper.selectSelective(dateType, acct);
     }
 
     @Override
-    public Target getTarget(String dateType,String startDate) {
-        return targetMapper.selectSelective(dateType, startDate);
+    public Target getTarget(String dateType,String acct) {
+        return targetMapper.selectSelective(dateType, acct);
     }
 
     @Override
-    public void editBudget(String budgetAmount, String dateType,String month) {
-        Budget budget = budgetMapper.selectSelective(dateType,month+"-01");
+    public void editBudget(String budgetAmount, String dateType,String acct) {
+        Budget budget = budgetMapper.selectSelective(dateType,acct);
+        //更新预算值
         budget.setBudgetAmount(budgetAmount);
+        //更新差值为新的预算减去总金额
+        BigDecimal dAmount = new BigDecimal(budgetAmount).subtract(new BigDecimal(budget.getTotalAmount()));
+        budget.setdAmount(dAmount.toString());
         budgetMapper.updateByPrimaryKey(budget);
     }
 
     @Override
-    public void editTarget(String targetAmount, String dateType,String month) {
-        Target target = targetMapper.selectSelective(dateType,month+"-01");
+    public void editTarget(String targetAmount, String dateType,String acct) {
+        Target target = targetMapper.selectSelective(dateType,acct);
+        //更新目标值
         target.setTargetAmount(targetAmount);
+        //更新差值为新的目标值减去总金额
+        BigDecimal dAmount = new BigDecimal(targetAmount).subtract(new BigDecimal(target.getTotalAmount()));
+        target.setdAmount(dAmount.toString());
         targetMapper.updateByPrimaryKey(target);
     }
 }

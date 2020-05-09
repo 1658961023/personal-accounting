@@ -1,32 +1,9 @@
 $(function () {
-    layui.use('laydate', function () {
-        var laydate = layui.laydate;
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#test', //指定元素
-            type: 'month',
-            value: new Date(),
-            done: function (value) {
-                drawPie(income_pie, value, 0)
-            }
-        });
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#test2', //指定元素
-            type: 'month',
-            value: new Date(),
-            done: function (value) {
-                drawPie(outcome_pie, value, 1)
-            }
-        });
-    });
     var income_pie = echarts.init(document.getElementById("budget_pie"), 'light');
     var outcome_pie = echarts.init(document.getElementById("target_pie"), 'light');
     drawPie(income_pie, "", "budget");
     drawPie(outcome_pie, "", "target");
 });
-
 
 function drawPie(chart, month, budgetTarget) {
     $.ajax({
@@ -50,7 +27,7 @@ function drawPie(chart, month, budgetTarget) {
                 var str;
                 if (budgetTarget === 'budget') {
                     datas.push({
-                        name: "剩余", value: data.budgetAmount - data.totalAmount, label: {
+                        name: "剩余", value: data.dAmount>0?data.dAmount:0, label: {
                             show: true
                         }
                     });
@@ -67,7 +44,7 @@ function drawPie(chart, month, budgetTarget) {
                         }
                     });
                     datas.push({
-                        name: "未达成", value: data.targetAmount - data.totalAmount, label: {
+                        name: "未达成", value: data.dAmount<=0?0:data.dAmount, label: {
 
                             show: false
 

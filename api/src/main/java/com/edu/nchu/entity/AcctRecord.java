@@ -3,7 +3,6 @@ package com.edu.nchu.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 
@@ -19,13 +18,15 @@ public class AcctRecord extends BaseRowModel implements Serializable{
     private String category;
 
     @ExcelProperty(value = "金额",index = 3)
-    private Integer amount;
+    private String amount;
 
     @ExcelProperty(value = "日期",index = 4)
     private String date;
 
     @ExcelProperty(value = "备注",index = 5)
     private String summary;
+
+    private String acct;
 
     public String getSerialNo() {
         return serialNo;
@@ -51,11 +52,11 @@ public class AcctRecord extends BaseRowModel implements Serializable{
         this.category = category == null ? null : category.trim();
     }
 
-    public Integer getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
@@ -73,5 +74,13 @@ public class AcctRecord extends BaseRowModel implements Serializable{
 
     public void setSummary(String summary) {
         this.summary = summary == null ? null : summary.trim();
+    }
+
+    public String getAcct() {
+        return acct;
+    }
+
+    public void setAcct(String acct) {
+        this.acct = acct;
     }
 }

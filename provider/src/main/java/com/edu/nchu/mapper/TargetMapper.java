@@ -18,4 +18,6 @@ public interface TargetMapper {
     int updateByPrimaryKey(Target record);
 
     Target selectSelective(String dateType, String startDate);
+
+    int updateAllTargets();
 }

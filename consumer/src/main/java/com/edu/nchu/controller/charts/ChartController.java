@@ -21,4 +21,9 @@ public class ChartController {
     private String showCharts(){
         return "charts/charts";
     }
+
+    @RequestMapping("/lines")
+    private String showLines(){
+        return "charts/lines";
+    }
 }

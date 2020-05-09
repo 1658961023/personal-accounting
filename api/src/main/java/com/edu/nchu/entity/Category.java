@@ -9,6 +9,8 @@ public class Category implements Serializable {
 
     private String budgetType;
 
+    private String acct;
+
     public Integer getId() {
         return id;
     }
@@ -31,5 +33,13 @@ public class Category implements Serializable {
 
     public void setBudgetType(String budgetType) {
         this.budgetType = budgetType;
+    }
+
+    public String getAcct() {
+        return acct;
+    }
+
+    public void setAcct(String acct) {
+        this.acct = acct;
     }
 }

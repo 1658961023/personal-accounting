@@ -8,9 +8,10 @@
     <result column="amount" property="amount" jdbcType="INTEGER" />
     <result column="date" property="date" jdbcType="DATE" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="acct" property="acct" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    serial_no, budget_type, category, amount, date, summary
+    serial_no, budget_type, category, amount, date, summary, acct
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -24,9 +25,9 @@
   </delete>
   <insert id="insert" parameterType="com.edu.nchu.entity.AcctRecord" >
     insert into t_acct_record (serial_no, budget_type, category, 
-      amount, date, summary)
+      amount, date, summary, acct)
     values (#{serialNo,jdbcType=VARCHAR}, #{budgetType,jdbcType=SMALLINT}, #{category,jdbcType=VARCHAR}, 
-      #{amount,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{summary,jdbcType=VARCHAR})
+      #{amount,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{summary,jdbcType=VARCHAR}, #{acct,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.edu.nchu.entity.AcctRecord" >
     insert into t_acct_record
@@ -49,6 +50,9 @@
       <if test="summary != null" >
         summary,
       </if>
+      <if test="acct != null">
+        acct,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="serialNo != null" >
@@ -68,6 +72,9 @@
       </if>
       <if test="summary != null" >
         #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="acct != null" >
+        #{acct,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -89,6 +96,9 @@
       <if test="summary != null" >
         summary = #{summary,jdbcType=VARCHAR},
       </if>
+      <if test="acct != null" >
+        acct = #{acct,jdbcType=VARCHAR},
+      </if>
     </set>
     where serial_no = #{serialNo,jdbcType=VARCHAR}
   </update>
@@ -98,22 +108,25 @@
       category = #{category,jdbcType=VARCHAR},
       amount = #{amount,jdbcType=INTEGER},
       date = #{date,jdbcType=DATE},
-      summary = #{summary,jdbcType=VARCHAR}
+      summary = #{summary,jdbcType=VARCHAR},
+      acct = #{acct,jdbcType=VARCHAR}
     where serial_no = #{serialNo,jdbcType=VARCHAR}
   </update>
   <select id="selectPage" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from t_acct_record limit #{param1},#{param2} order by date desc
+    from t_acct_record where acct=#{param3}
+    order by date desc limit #{param1},#{param2}
+
   </select>
   <select id="getCount" resultType="java.lang.Integer">
-    select count(*) from t_acct_record
+    select count(*) from t_acct_record where acct=#{param1}
   </select>
   <select id="getChartData" resultMap="BaseResultMap">
   select
   serial_no,budget_type,category,sum(amount) as amount,date,summary
   from t_acct_record
-  where 1=1
+  where acct=#{acct}
   <if test="month!=null and month!='' ">
       and #{month}=substr(date,1,7)
   </if>
@@ -126,6 +139,13 @@
   <select id="selectAll" resultType="com.edu.nchu.entity.AcctRecord">
     select
     <include refid="Base_Column_List"/>
-    from t_acct_record
+    from t_acct_record where acct=#{acct}
   </select>
+    <select id="getBill" resultType="com.edu.nchu.entity.AcctRecord">
+      select
+      serial_no, budget_type, category, sum(amount) as amount, substr(date,1,7) as date, summary, acct
+        from t_acct_record
+        where acct=#{param1}
+        group by substr(date,1,7),budget_type order by amount desc
+    </select>
 </mapper>

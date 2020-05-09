@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>个人在线记账系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <link rel="icon" th:href="@{images/icon/favicon.ico}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}"/>
+    <script th:src="@{javascript/jquery.js}"></script>
+    <script th:src="@{javascript/plug-ins/customScrollbar.min.js}"></script>
+    <script th:src="@{javascript/plug-ins/echarts.min.js}"></script>
+    <script th:src="@{javascript/plug-ins/layerUi/layer.js}"></script>
+    <script th:src="@{javascript/plug-ins/pagination.js}"></script>
+    <script th:src="@{javascript/public.js}"></script>
+    <script th:src="@{javascript/pages/changePwd.js}"></script>
+</head>
+<body>
+<div class="main-wrap">
+    <div class="side-nav" th:insert="~{user/userInfo::part_side}">
+    </div>
+    <div class="content-wrap">
+        <header class="top-hd" th:insert="~{user/userInfo::part_top}">
+        </header>
+        <main class="main-cont content mCustomScrollbar">
+            <!--开始::内容-->
+                <form th:action="changePwdDo" method="post" id="pwdForm">
+                    <div class="form-group-col-2">
+                        <div class="form-label">原密码：</div>
+                        <div class="form-cont">
+                            <input type="hidden" id="right_pwd" th:value="${user.password}">
+                            <input type="text" id="old_pwd" th:name="old_password"
+                                   class="form-control form-boxed"
+                                   style="width:300px;">
+                        </div>
+                    </div>
+                    <div class="form-group-col-2">
+                        <div class="form-label">新密码：</div>
+                        <div class="form-cont">
+                            <input type="password" id="new_pwd" th:name="newPassword"
+                                   class="form-control form-boxed"
+                                   style="width:300px;">
+                        </div>
+                    </div>
+                    <div class="form-group-col-2">
+                    <div class="form-label">确认密码：</div>
+                    <div class="form-cont">
+                        <input type="password" id="new_pwd2" th:name="new_password2"
+                               class="form-control form-boxed"
+                               style="width:300px;">
+                    </div>
+                </div>
+                    <div class="form-group-col-2">
+                        <div class="form-label"></div>
+                        <div class="form-cont">
+                            <input type="button" id="changePwd" class="btn btn-primary" value="修改密码"/>
+                        </div>
+                    </div>
+                </form>
+            <!--开始::结束-->
+        </main>
+    </div>
+</div>
+</body>
+</html>

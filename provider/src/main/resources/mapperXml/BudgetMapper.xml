@@ -11,10 +11,11 @@
         <result column="category" property="category" jdbcType="VARCHAR"/>
         <result column="d_amount" property="dAmount" jdbcType="VARCHAR"/>
         <result column="expire_flag" property="expireFlag" jdbcType="SMALLINT"/>
+        <result column="acct" property="acct" jdbcType="VARCHAR" />
     </resultMap>
     <sql id="Base_Column_List">
     id, budget_amount, date_type, start_date, end_date, total_amount, category, d_amount, 
-    expire_flag
+    expire_flag, acct
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -27,9 +28,7 @@
         <include refid="Base_Column_List"/>
         from t_budget
         where date_type=#{param1}
-        <if test="param2!=null and param2!='' ">
-            and #{param2}>=start_date
-        </if>
+        and acct=#{param2}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_budget
@@ -38,12 +37,12 @@
     <insert id="insert" parameterType="com.edu.nchu.entity.Budget">
     insert into t_budget (id, budget_amount, date_type, 
       start_date, end_date, total_amount, 
-      category, d_amount, expire_flag
+      category, d_amount, expire_flag, acct
       )
     values (#{id,jdbcType=INTEGER}, #{budgetAmount,jdbcType=VARCHAR}, #{dateType,jdbcType=SMALLINT}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{totalAmount,jdbcType=VARCHAR}, 
-      #{category,jdbcType=VARCHAR}, #{dAmount,jdbcType=VARCHAR}, #{expireFlag,jdbcType=SMALLINT}
-      )
+      #{category,jdbcType=VARCHAR}, #{dAmount,jdbcType=VARCHAR}, #{expireFlag,jdbcType=SMALLINT},
+      #{acct,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.edu.nchu.entity.Budget">
         insert into t_budget
@@ -75,6 +74,9 @@
             <if test="expireFlag != null">
                 expire_flag,
             </if>
+            <if test="acct != null">
+                acct
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -103,6 +105,9 @@
             </if>
             <if test="expireFlag != null">
                 #{expireFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="acct != null">
+                #{acct,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -133,6 +138,9 @@
             <if test="expireFlag != null">
                 expire_flag = #{expireFlag,jdbcType=SMALLINT},
             </if>
+            <if test="acct != null">
+                acct = #{acct,jdbcType=SMALLINT},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -148,4 +156,10 @@
       expire_flag = #{expireFlag,jdbcType=SMALLINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="updateAllBudgets">
+        update t_budget
+        set budget_amount = 3000,
+          total_amount = 0,
+          d_amount = 3000
+    </update>
 </mapper>

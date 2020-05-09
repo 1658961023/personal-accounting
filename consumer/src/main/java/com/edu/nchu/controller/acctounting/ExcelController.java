@@ -7,18 +7,26 @@ import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.ExcelWriter;
 import com.edu.nchu.component.ExcelListener;
 import com.edu.nchu.entity.AcctRecord;
+import com.edu.nchu.entity.Category;
+import com.edu.nchu.entity.User;
 import com.edu.nchu.entity.enums.BudgetEnum;
 import com.edu.nchu.service.accounting.RecordService;
+import com.edu.nchu.service.category.CategoryService;
+import com.edu.nchu.util.MyUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 /*********************************************************
@@ -37,8 +45,12 @@ public class ExcelController {
     @Reference
     private RecordService recordService;
 
+    @Reference
+    private CategoryService categoryService;
+
     @RequestMapping("/export")
-    public String exporExcel(HttpServletResponse response) throws IOException {
+    public String exporExcel(HttpServletResponse response,
+                             HttpSession session) throws IOException {
         //todo 是否分页导出或全部导出
         ExcelWriter writer = null;
         OutputStream outputStream = response.getOutputStream();
@@ -48,7 +60,8 @@ public class ExcelController {
             // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
             String fileName = URLEncoder.encode("记账流水", "UTF-8");
             response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
-            List<AcctRecord> records = recordService.selectAll();
+            User user = (User) session.getAttribute("user");
+            List<AcctRecord> records = recordService.selectAll(user.getAcct());
             for (AcctRecord record : records) {
                 record.setBudgetType(BudgetEnum.INCOME.getCode().equals(record.getBudgetType())?"收入":"支出");
             }
@@ -68,7 +81,17 @@ public class ExcelController {
     }
 
     @RequestMapping("/import")
-    public String importExcel(@RequestParam("file") MultipartFile file) throws IOException {
+    public String importExcel(@RequestParam("file") MultipartFile file,
+                              RedirectAttributes redirectAttributes,
+                              HttpSession session) throws IOException {
+        String filename = file.getOriginalFilename();
+        String suffix = filename.substring(filename.lastIndexOf(".")+1);
+        if(!StringUtils.isEmpty(file.getOriginalFilename())){
+            if(!"xls".equals(suffix) && !"xlsx".equals(suffix)){
+                redirectAttributes.addAttribute("msg","上传文件格式不正确，仅支持.xls,xlsx");
+                return "redirect:allRecords";
+            }
+        }
         InputStream inputStream = file.getInputStream();
 
         //实例化实现了AnalysisEventListener接口的类
@@ -78,18 +101,43 @@ public class ExcelController {
         excelReader.read();
         //获取数据
         List<List<String>> list = listener.getDatas();
+        User user = (User) session.getAttribute("user");
 
         //转换数据类型,并插入到数据库
         for (int i=1;i<list.size();i++) {
             AcctRecord record = new AcctRecord();
+            record.setAcct(user.getAcct());
             record.setBudgetType(list.get(i).get(0));
             record.setCategory(list.get(i).get(1));
-            record.setAmount(Integer.valueOf(list.get(i).get(2)));
+            record.setAmount((list.get(i).get(2)));
             record.setDate(list.get(i).get(3));
             record.setSummary(list.get(i).get(4));
+            if(!"success".equals(checkRecord(record))){
+                redirectAttributes.addAttribute("msg",checkRecord(record));
+                return "redirect:allRecords";
+            }
             recordService.addRecord(record);
         }
         excelReader.finish();
         return "redirect:allRecords";
+    }
+
+    private String checkRecord(AcctRecord acctRecord){
+        List<Category> categories = categoryService.getCategoryByType(acctRecord.getBudgetType(),acctRecord.getAcct());
+        List<String> names = new ArrayList<>();
+        for (Category category : categories) {
+            names.add(category.getName());
+        }
+        if(!BudgetEnum.INCOME.getCode().equals(acctRecord.getBudgetType()) && !BudgetEnum.EXPEND.getCode().equals(acctRecord.getBudgetType())){
+            return "收支类型格式不正确，0:收入，1:支出";
+        }else if (!names.contains(acctRecord.getCategory())){
+            return "分类不存在";
+        }else if(!MyUtils.isNumeric(acctRecord.getAmount())){
+            return "金额必须为数字";
+        }else if(!MyUtils.isValidDate(acctRecord.getDate())){
+            return "日期不正确，格式为yyyy-MM-dd";
+        }else {
+            return "success";
+        }
     }
 }

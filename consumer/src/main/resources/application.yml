@@ -11,3 +11,4 @@ spring:
     scan: com.edu.nchu.controller   #扫描需要暴露的服务
   thymeleaf:
     cache: false
+    encoding: UTF-8

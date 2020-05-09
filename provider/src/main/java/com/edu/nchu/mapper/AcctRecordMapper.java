@@ -23,11 +23,13 @@ public interface AcctRecordMapper {
 
     int updateByPrimaryKey(AcctRecord record);
 
-    List<AcctRecord> selectPage(int start,int pagesize);
+    List<AcctRecord> selectPage(int start,int pagesize,String acct);
 
-    int getCount();
+    int getCount(String acct);
 
-    List<AcctRecord> getChartData(@Param("month") String month, @Param("budgetType") String budgetType, @Param("chartType") String chartType);
+    List<AcctRecord> getChartData(@Param("month") String month, @Param("budgetType") String budgetType, @Param("chartType") String chartType,@Param("acct") String acct);
 
-    List<AcctRecord> selectAll();
+    List<AcctRecord> selectAll(String acct);
+
+    List<AcctRecord> getBill(String acct);
 }

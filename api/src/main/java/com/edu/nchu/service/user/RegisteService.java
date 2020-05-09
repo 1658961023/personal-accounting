@@ -16,6 +16,6 @@ import java.util.Map;
  *********************************************************/
 public interface RegisteService {
 
-    String register(String acct, String password, String nickname, Map<String,String> map);
+    String register(String acct, String password, String nickname);
 }
 

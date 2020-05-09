@@ -18,16 +18,15 @@
     <script th:src="@{javascript/jquery.js}"></script>
     <script th:src="@{javascript/public.js}"></script>
     <script th:src="@{javascript/plug-ins/customScrollbar.min.js}"></script>
-    <script th:src="@{javascript/pages/login.js}"></script>
     <script th:src="@{javascript/pages/registeCheck.js}"></script>
 </head>
 <body class="login-page">
 <section class="login-contain viewFlow" style="height: 100%;">
     <header>
         <h1>用户注册</h1>
-        <p>hospital system</p>
+        <p>PERSONAL ACCOUNTING</p>
     </header>
-    <form action="#" th:action="@{/register}" method="POST">
+    <form th:action="@{/register}" method="POST">
         <div class="form-content">
         <ul>
             <li>
@@ -40,6 +39,7 @@
                 <div class="form-group">
                     <label id="lacct" class="control-label required">账号：</label>
                     <input type="text" name="acct" class="form-control form-underlined" id="acct"/>
+                    <input type="hidden" id="msg" th:value="${msg}">
                 </div>
             </li>
             <li>

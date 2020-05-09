@@ -15,12 +15,12 @@ import com.edu.nchu.entity.Target;
  *********************************************************/
 public interface BudgetTargetService {
 
-    Budget getBudget(String dateType,String startDate);
+    Budget getBudget(String dateType,String acct);
 
-    Target getTarget(String dateType,String startDate);
+    Target getTarget(String dateType,String acct);
 
-    void editBudget(String budgetAmount, String dateType,String month);
+    void editBudget(String budgetAmount, String dateType, String acct);
 
-    void editTarget(String targetAmount, String dateType,String month);
+    void editTarget(String targetAmount, String dateType, String acct);
 }
 

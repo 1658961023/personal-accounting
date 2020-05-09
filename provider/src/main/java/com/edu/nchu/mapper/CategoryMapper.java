@@ -19,9 +19,9 @@ public interface CategoryMapper {
 
     int updateByPrimaryKey(Category record);
 
-    List<Category> selectByType(String budgetType);
+    List<Category> selectByType(String budgetType,String acct);
 
-    List<Category> selectAllCategory(int start,int pagesize);
+    List<Category> selectAllCategory(int start,int pagesize,String acct);
 
-    int getCount();
+    int getCount(String acct);
 }

@@ -19,7 +19,7 @@ public interface RecordService {
 
     void addRecord(AcctRecord acctRecord);
 
-    List<AcctRecord> getRecordsPage(int start,int pagesize);
+    List<AcctRecord> getRecordsPage(int start,int pagesize,String acct);
 
     void deleteRecord(String serialNo);
 
@@ -27,10 +27,12 @@ public interface RecordService {
 
     void update(AcctRecord acctRecord);
 
-    int getCount();
+    int getCount(String acct);
 
-    List<AcctRecord> getChartData(String month, String budgetType,String chartType);
+    List<AcctRecord> getChartData(String month, String budgetType,String chartType,String acct);
 
-    List<AcctRecord> selectAll();
+    List<AcctRecord> selectAll(String acct);
+
+    List<AcctRecord> getBill(String billType,String acct);
 }
 

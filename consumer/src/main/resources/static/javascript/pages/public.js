@@ -13,26 +13,20 @@ $(function () {
     });
 
     $('#btn_budgetEdit').click(function () {
-        var month = $('#test').val();
         var budget = $('#budget').val();
-        if (month == null) {
-            alert("请选择月份！");
-        } else if (budget == null) {
-            alert("请输入金额！")
+        if (budget == null||+budget<0) {
+            alert("请输入金额且金额大于等于0")
         } else {
-            window.location.href = 'editBudget?budgetAmount=' + budget + '&dateType=1'+'&month='+month;
+            window.location.href = 'editBudget?budgetAmount=' + budget + '&dateType=1';
         }
     });
 
     $('#btn_targetEdit').click(function () {
-        var month = $('#test2').val();
         var target = $('#target').val();
-        if (month == null) {
-            alert("请选择月份！");
-        } else if (target == null) {
-            alert("请输入金额！")
+            if (target == null||+target<0) {
+            alert("请输入金额且金额大于等于0！")
         } else {
-            window.location.href = 'editTarget?targetAmount=' + target + '&dateType=1'+'&month='+month;
+            window.location.href = 'editTarget?targetAmount=' + target + '&dateType=1';
         }
     });
 });

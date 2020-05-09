@@ -2,10 +2,17 @@ package com.edu.nchu.controller.acctounting;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.edu.nchu.entity.AcctRecord;
+import com.edu.nchu.entity.User;
 import com.edu.nchu.service.accounting.RecordService;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,23 +39,36 @@ public class AccountingController {
     }
 
     @PostMapping("/addRecord")
-    private String addRecord(AcctRecord acctRecord){
+    private String addRecord(AcctRecord acctRecord,
+                             HttpSession session){
+        User user = (User) session.getAttribute("user");
+        acctRecord.setAcct(user.getAcct());
         recordService.addRecord(acctRecord);
         return "index";
     }
 
     @RequestMapping("/allRecords")
-    private String allRecords(Map<String,Object> map){
+    private String allRecords(HttpServletRequest request,
+                              RedirectAttributes redirectAttributes){
+        if(!StringUtils.isEmpty(request.getParameter("msg"))){
+            redirectAttributes.addAttribute("msg",request.getParameter("msg"));
+        }
         return "redirect:allRecordsPage?curPage=1&pagesize=10";
     }
 
     @RequestMapping("/allRecordsPage")
     private String allRecords(@RequestParam int curPage,
                               @RequestParam int pagesize,
-                              Map<String,Object> map){
-        map.put("count",recordService.getCount());
+                              Map<String,Object> map,
+                              HttpServletRequest request,
+                              HttpSession session){
+        User user = (User) session.getAttribute("user");
+        map.put("count",recordService.getCount(user.getAcct()));
         map.put("curPage",curPage);
-        map.put("records",recordService.getRecordsPage((curPage-1)*pagesize,pagesize));
+        map.put("records",recordService.getRecordsPage((curPage-1)*pagesize,pagesize,user.getAcct()));
+        if(!StringUtils.isEmpty(request.getParameter("msg"))){
+            map.put("msg",request.getParameter("msg"));
+        }
         return "accounting/allRecords";
     }
 
@@ -75,7 +95,23 @@ public class AccountingController {
     @ResponseBody
     private List<AcctRecord> getChartData(@RequestParam String month,
                                           @RequestParam String budgetType,
-                                          @RequestParam String chartType){
-        return recordService.getChartData(month,budgetType,chartType);
+                                          @RequestParam String chartType,
+                                          HttpSession session){
+        if(StringUtils.isEmpty(month)){
+            Calendar calendar = Calendar.getInstance();
+            String monthFormat=(calendar.get(Calendar.MONTH)+1)<10?"0"+(calendar.get(Calendar.MONTH)+1):""+(calendar.get(Calendar.MONTH)+1);
+            month = calendar.get(Calendar.YEAR)+"-"+monthFormat;
+        }
+        User user = (User) session.getAttribute("user");
+        return recordService.getChartData(month,budgetType,chartType,user.getAcct());
+    }
+
+    @RequestMapping("myBill")
+    private String myBill(@RequestParam String billType,
+                          HttpSession session,
+                          Map<String,Object> map){
+        User user = (User) session.getAttribute("user");
+        recordService.getBill(billType,user.getAcct());
+        return "myBill";
     }
 }

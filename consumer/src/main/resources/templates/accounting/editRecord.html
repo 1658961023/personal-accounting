@@ -17,7 +17,9 @@
     <script th:src="@{editor/ueditor.config.js}"></script>
     <script th:src="@{editor/ueditor.all.js}"></script>
     <script th:src="@{javascript/plug-ins/pagination.js}"></script>
+    <script th:src="@{javascript/public.js}"></script>
     <script th:src="@{javascript/pages/getCategory.js}"></script>
+    <script th:src="@{javascript/pages/recordCheck.js}"></script>
 </head>
 <body>
 <div class="main-wrap">
@@ -46,19 +48,19 @@
                 <div class="form-group-col-2">
                     <div class="form-label">金额：</div>
                     <div class="form-cont">
-                        <input type="number" th:name="amount" th:value="${record.amount}" class="form-control form-boxed" style="width:300px;">
+                        <input type="number" id="amount" th:name="amount" th:value="${record.amount}" class="form-control form-boxed" style="width:300px;">
                     </div>
                 </div>
                 <div class="form-group-col-2">
                     <div class="form-label">分类：</div>
                     <div class="form-cont">
-                        <select th:name="category" style="width:auto;">
+                        <select th:name="category" id="category" style="width:auto;">
                         </select>
                     </div>
                 </div>
                 <div class="form-group-col-2">
                     <div class="form-label">日期：</div>
-                    <input th:name="date" type="date" th:value="${record.date}">
+                    <input th:name="date" type="date" id="date" th:value="${record.date}">
                     <div class="form-cont">
                     </div>
                 </div>

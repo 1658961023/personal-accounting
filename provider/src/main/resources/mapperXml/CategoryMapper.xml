@@ -5,9 +5,10 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="budget_type" property="budgetType" jdbcType="SMALLINT" />
+    <result column="acct" property="acct" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, budget_type
+    id, name, budget_type, acct
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -20,10 +21,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.edu.nchu.entity.Category" >
-    insert into t_category (id, name, budget_type
+    insert into t_category (id, name, budget_type, acct
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{budgetType,jdbcType=SMALLINT}
-      )
+      ,#{acct,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.edu.nchu.entity.Category" >
     insert into t_category
@@ -37,6 +38,9 @@
       <if test="budgetType != null" >
         budget_type,
       </if>
+      <if test="acct != null" >
+        acct,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -47,6 +51,9 @@
       </if>
       <if test="budgetType != null" >
         #{budgetType,jdbcType=SMALLINT},
+      </if>
+      <if test="acct != null" >
+        #{acct,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -59,27 +66,34 @@
       <if test="budgetType != null" >
         budget_type = #{budgetType,jdbcType=SMALLINT},
       </if>
+        <if test="acct != null" >
+            acct = #{acct,jdbcType=VARCHAR},
+        </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.edu.nchu.entity.Category" >
     update t_category
     set name = #{name,jdbcType=VARCHAR},
-      budget_type = #{budgetType,jdbcType=SMALLINT}
+      budget_type = #{budgetType,jdbcType=SMALLINT},
+      acct =#{acct,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByType" parameterType="java.lang.String" resultMap="BaseResultMap">
   select
   <include refid="Base_Column_List" />
   from t_category
-  where budget_type = #{budgetType}
+  where budget_type = #{param1}
+      and acct=#{param2}
 </select>
   <select id="selectAllCategory" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from t_category limit #{arg0},#{arg1}
+    from t_category where acct = #{param3}
+    limit #{arg0},#{arg1}
+
   </select>
   <select id="getCount" resultType="java.lang.Integer">
-    select count(*) from t_category
+    select count(*) from t_category where acct=#{acct}
   </select>
 </mapper>

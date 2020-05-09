@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>个人在线记账系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <link rel="icon" th:href="@{images/icon/favicon.ico}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}"/>
+    <script th:src="@{javascript/jquery.js}"></script>
+    <script th:src="@{javascript/plug-ins/customScrollbar.min.js}"></script>
+    <script th:src="@{javascript/plug-ins/echarts.min.js}"></script>
+    <script th:src="@{javascript/plug-ins/layerUi/layer.js}"></script>
+    <script th:src="@{editor/ueditor.config.js}"></script>
+    <script th:src="@{editor/ueditor.all.js}"></script>
+    <script th:src="@{javascript/plug-ins/pagination.js}"></script>
+    <script th:src="@{javascript/public.js}"></script>
+    <script th:src="@{javascript/pages/userCheck.js}"></script>
+</head>
+<body>
+<div class="main-wrap">
+    <div class="side-nav" th:fragment="part_side">
+        <div class="side-logo">
+            <div class="logo">
+                <strong>个人在线记账系统</strong>
+            </div>
+        </div>
+
+        <nav class="side-menu content mCustomScrollbar" data-mcs-theme="minimal-dark">
+            <h2>
+                <a href="index" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/index.png)"></i>首页</a>
+            </h2>
+            <h2>
+                <a href="userInfo" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/info.png)"></i>基本信息</a>
+            </h2>
+            <h2>
+                <a href="changePwd" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/pwd.png)"></i>修改密码</a>
+            </h2>
+            <h2>
+                <a href="myBill" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/zhangdan.png)"></i>我的账单</a>
+            </h2>
+        </nav>
+    </div>
+    <div class="content-wrap">
+        <header class="top-hd" th:fragment="part_top">
+            <div class="hd-lt">
+                <a class="icon-reorder"></a>
+            </div>
+            <div class="hd-rt">
+                <ul>
+                    <li>
+                        <a th:href="userInfo">
+                            <img style="border-radius: 50%;width: 40px;height: 40px;"
+                                 th:src="'/images/profiles/'+${user.profile}">
+                            <em>[[${session.user.acct}]]</em></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" id="JsSignOut"><i class="icon-signout"></i>退出登录</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <main class="main-cont content mCustomScrollbar">
+            <!--开始::内容-->
+            <div class="page-wrap">
+                <blockquote class="blockquote mb-20">
+                    个人信息
+                </blockquote>
+                <input type="hidden" id="msg" th:value="${msg}" th:if="${not #strings.isEmpty(msg)}">
+                <div class="flow-layout col-2">
+                    <ul>
+                        <li class="child-wrap">
+                            <div class="panel panel-default">
+                                <div class="panel-bd" style="text-align: center">
+                                    <img style="width: 200px;height: 200px;"
+                                         th:src="'/images/profiles/'+${user.profile}">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="child-wrap">
+                            <div class="panel panel-default">
+                                <div class="panel-bd">
+                                    <form th:action="updateUserInfo" id="userInfoForm" method="post" enctype="multipart/form-data">
+                                        <div class="form-group-col-2">
+                                            <div class="form-label">账号：</div>
+                                            <div class="form-cont">
+                                                <input type="hidden" th:name="id" th:value="${user.id}">
+                                                <input type="text" th:name="acct" th:value="${user.acct}"
+                                                       readonly="readonly"
+                                                       class="form-control form-boxed"
+                                                       style="width:300px;">
+                                            </div>
+                                        </div>
+                                        <div class="form-group-col-2">
+                                            <div class="form-label">昵称：</div>
+                                            <div class="form-cont">
+                                                <input type="text" id="nickname" th:name="nickname" th:value="${user.nickname}"
+                                                       class="form-control form-boxed"
+                                                       style="width:300px;">
+                                            </div>
+                                        </div>
+                                        <div class="form-group-col-2">
+                                            <div class="form-label">性别：</div>
+                                            <div class="form-cont">
+                                                <label class="radio">
+                                                    <input type="radio" th:name="sex" th:value="0" th:checked="${user.sex}==0"/>
+                                                    <span>男</span>
+                                                </label>
+                                                <label class="radio">
+                                                    <input type="radio" th:name="sex" th:value="1" th:checked="${user.sex}==1"/>
+                                                    <span>女</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group-col-2">
+                                            <div class="form-label">手机：</div>
+                                            <div class="form-cont">
+                                                <input type="text" id="phone" th:name="phone" th:value="${user.phone}"
+                                                       class="form-control form-boxed">
+                                            </div>
+                                        </div>
+                                        <div class="form-group-col-2">
+                                            <div class="form-label">邮箱：</div>
+                                            <div class="form-cont">
+                                                <input type="text" id="email" th:name="email" th:value="${user.email}"
+                                                       class="form-control form-boxed"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group-col-2">
+                                            <div class="form-label">头像：</div>
+                                            <div class="form-cont">
+                                                <input type="file" th:name="profile" th:value="${user.profile}" accept="image/*"
+                                                       class="form-control form-boxed"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group-col-2">
+                                            <div class="form-label"></div>
+                                            <div class="form-cont">
+                                                <input type="button" id="saveInfoBtn" class="btn btn-primary" value="保存"/>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--开始::结束-->
+        </main>
+    </div>
+</div>
+</body>
+</html>

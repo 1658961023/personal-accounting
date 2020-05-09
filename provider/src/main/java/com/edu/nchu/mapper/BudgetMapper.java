@@ -17,5 +17,7 @@ public interface BudgetMapper {
 
     int updateByPrimaryKey(Budget record);
 
-    Budget selectSelective(String dateType,String startDate);
+    Budget selectSelective(String dateType,String acct);
+
+    int updateAllBudgets();
 }

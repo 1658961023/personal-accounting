@@ -16,13 +16,13 @@ import java.util.List;
  *********************************************************/
 public interface CategoryService {
 
-    List<Category> getCategoryByType(String budgetType);
+    List<Category> getCategoryByType(String budgetType,String acct);
 
-    List<Category> getAllCategory(int start,int pagesize);
+    List<Category> getAllCategory(int start,int pagesize,String acct);
 
     void addCategory(Category category);
 
     void deleteCategory(int id);
 
-    int getCount();
+    int getCount(String acct);
 }

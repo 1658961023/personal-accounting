@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8"/>
     <title>个人在线记账系统</title>
-    <meta name="keywords"  content="设置关键词..." />
-    <meta name="description" content="设置描述..." />
-    <meta name="author" content="DeathGhost" />
+    <meta name="keywords" content="设置关键词..."/>
+    <meta name="description" content="设置描述..."/>
+    <meta name="author" content="DeathGhost"/>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <link rel="icon" th:href="@{images/icon/favicon.ico}" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}"/>
     <script th:src="@{javascript/jquery.js}"></script>
     <script th:src="@{javascript/plug-ins/customScrollbar.min.js}"></script>
     <script th:src="@{javascript/plug-ins/echarts.min.js}"></script>
@@ -24,30 +24,28 @@
     <div class="side-nav" th:fragment="part_side">
         <div class="side-logo">
             <div class="logo">
-				<span class="logo-ico">
-					<i class="i-l-1"></i>
-					<i class="i-l-2"></i>
-					<i class="i-l-3"></i>
-				</span>
                 <strong>个人在线记账系统</strong>
             </div>
         </div>
 
         <nav class="side-menu content mCustomScrollbar" data-mcs-theme="minimal-dark">
             <h2>
-                <a href="addRecord" class="InitialPage"><i class="icon-dashboard"></i>记账</a>
+                <a href="addRecord" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/pen.png)"></i>记账</a>
             </h2>
             <h2>
-                <a href="allCategory" class="InitialPage"><i class="icon-dashboard"></i>分类管理</a>
+                <a href="allCategory" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/fenlei.png)"></i>分类管理</a>
             </h2>
             <h2>
-                <a href="allRecords" class="InitialPage"><i class="icon-dashboard"></i>我的记账</a>
+                <a href="allRecords" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/records.png)"></i>我的记账</a>
             </h2>
             <h2>
-                <a href="charts" class="InitialPage"><i class="icon-dashboard"></i>图表</a>
+                <a href="charts" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/shujutongji.png)"></i>收支概况</a>
             </h2>
             <h2>
-                <a href="budgetTarget" class="InitialPage"><i class="icon-dashboard"></i>预算和目标</a>
+                <a href="lines" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/tongji.png)"></i>收支趋势</a>
+            </h2>
+            <h2>
+                <a href="budgetTarget" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/mubiao.png)"></i>预算和目标</a>
             </h2>
         </nav>
     </div>
@@ -59,7 +57,10 @@
             <div class="hd-rt">
                 <ul>
                     <li>
-                        <a><i class="icon-user"></i>用户:<em>[[${session.user}]]</em></a>
+                        <a th:href="userInfo">
+                            <img style="border-radius: 50%;width: 40px;height: 40px;"
+                                 th:src="'/images/profiles/'+${session.user.profile}"/>
+                            <em>[[${session.user.acct}]]</em></a>
                     </li>
                     <li>
                         <a href="javascript:void(0)" id="JsSignOut"><i class="icon-signout"></i>退出登录</a>

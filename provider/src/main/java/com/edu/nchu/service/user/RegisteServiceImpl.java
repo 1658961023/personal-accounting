@@ -1,11 +1,21 @@
 package com.edu.nchu.service.user;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.edu.nchu.DTO.CategoryDto;
+import com.edu.nchu.entity.Budget;
+import com.edu.nchu.entity.Category;
+import com.edu.nchu.entity.Target;
 import com.edu.nchu.entity.User;
+import com.edu.nchu.entity.enums.DateTypeEnum;
+import com.edu.nchu.mapper.BudgetMapper;
+import com.edu.nchu.mapper.CategoryMapper;
+import com.edu.nchu.mapper.TargetMapper;
 import com.edu.nchu.mapper.UserMapper;
+import com.edu.nchu.util.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /*********************************************************
@@ -24,20 +34,53 @@ public class RegisteServiceImpl implements RegisteService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
+    @Autowired
+    private BudgetMapper budgetMapper;
+
+    @Autowired
+    private TargetMapper targetMapper;
+
     @Override
-    public String register(String acct, String password, String nickname, Map<String, String> map) {
+    public String register(String acct, String password, String nickname) {
         if (ObjectUtils.isEmpty(userMapper.selectByAcct(acct))) {
             //账号不重复，可以使用
             User user = new User();
             user.setAcct(acct);
             user.setPassword(password);
             user.setNickname(nickname);
-            userMapper.insert(user);
-            map.put("msg", "注册成功");
-            return "login";
+            userMapper.insertSelective(user);
+            //新建系统默认分类
+            List<CategoryDto> categories = MyUtils.transEnumToList();
+            for (CategoryDto category : categories) {
+                Category category1 = new Category();
+                category1.setName(category.getName());
+                category1.setBudgetType(category.getBudgetType());
+                category1.setAcct(acct);
+                categoryMapper.insert(category1);
+            }
+            //为新用户创建新的预算和目标，默认每月3000
+            //新建每月预算
+            Budget budget = new Budget();
+            budget.setAcct(acct);
+            budget.setBudgetAmount("3000");
+            budget.setdAmount("3000");
+            budget.setTotalAmount("0");
+            budget.setDateType(DateTypeEnum.MONTH.getCode());
+            budgetMapper.insert(budget);
+            //新建每月目标
+            Target target = new Target();
+            target.setAcct(acct);
+            target.setTargetAmount("3000");
+            target.setdAmount("3000");
+            target.setTotalAmount("0");
+            target.setDateType(DateTypeEnum.MONTH.getCode());
+            targetMapper.insert(target);
+            return "redirect:login";
         }
         //账号重复，无法注册
-        map.put("msg", "账号已被使用，注册失败");
         return "register";
     }
 }

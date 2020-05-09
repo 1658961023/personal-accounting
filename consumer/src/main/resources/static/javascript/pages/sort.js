@@ -1,5 +1,5 @@
     var tag=1;
-    function sortNumberAS(a, b)
+    function sortNumberAs(a, b)
     {
         return a - b
     }
@@ -46,18 +46,24 @@
         for(var i=0;i<columnArray.length;i++){
             orginArray.push(columnArray[i]);
         }
-        if(obj.className=="as"){
+        if(obj.className==="strAs"){
             columnArray.sort(sortStrAS);               //排序后的新值
-            obj.className="desc";
-        }else{
+            obj.className="strDesc";
+        }else if (obj.className==="strDesc") {
             columnArray.sort(sortStrDesc);               //排序后的新值
-            obj.className="as";
+            obj.className="strAs";
+        }else if (obj.className === "numAs") {
+            columnArray.sort(sortNumberAs);
+            obj.className="numDesc"
+        }else {
+            columnArray.sort(sortNumberDesc);
+            obj.className="numAs"
         }
 
 
         for(var i=0;i<columnArray.length;i++){
             for(var j=0;j<orginArray.length;j++){
-                if(orginArray[j]==columnArray[i]){
+                if(orginArray[j]===columnArray[i]){
                     document.getElementsByName("td0")[i].innerHTML=tdArray0[j];
                     document.getElementsByName("td1")[i].innerHTML=tdArray1[j];
                     document.getElementsByName("td2")[i].innerHTML=tdArray2[j];

@@ -22,6 +22,8 @@ public class Target implements Serializable {
 
     private String expireFlag;
 
+    private String acct;
+
     public Integer getId() {
         return id;
     }
@@ -92,5 +94,13 @@ public class Target implements Serializable {
 
     public void setExpireFlag(String expireFlag) {
         this.expireFlag = expireFlag;
+    }
+
+    public String getAcct() {
+        return acct;
+    }
+
+    public void setAcct(String acct) {
+        this.acct = acct;
     }
 }

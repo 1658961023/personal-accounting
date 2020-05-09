@@ -24,13 +24,13 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
     @Override
-    public List<Category> getCategoryByType(String budgetType) {
-        return categoryMapper.selectByType(budgetType);
+    public List<Category> getCategoryByType(String budgetType,String acct) {
+        return categoryMapper.selectByType(budgetType,acct);
     }
 
     @Override
-    public List<Category> getAllCategory(int start,int pagesize) {
-        return categoryMapper.selectAllCategory(start,pagesize);
+    public List<Category> getAllCategory(int start,int pagesize,String acct) {
+        return categoryMapper.selectAllCategory(start,pagesize,acct);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public int getCount() {
-        return categoryMapper.getCount()/10+1;
+    public int getCount(String acct) {
+        return categoryMapper.getCount(acct)/10+1;
     }
 }

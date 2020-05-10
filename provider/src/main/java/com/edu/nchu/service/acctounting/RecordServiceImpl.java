@@ -176,23 +176,47 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public List<AcctRecord> getBill(String billType, String acct) {
+    public List<BillDto> getBill(String billType, String acct) {
         List<AcctRecord> list = acctRecordMapper.getBill(acct);
         List<BillDto> bill = new ArrayList<>();
         if (BillTypeEnum.THIS_YEAR.getCode().equals(billType)) {
+            //仅获取本年前几个月的账单
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH) + 1;
             for (int i = 1; i < month; i++) {
                 BillDto billDto = new BillDto();
-                billDto.setMonth(month < 10 ? "0" + month : "" + month);
+                boolean recorded = false;
+                billDto.setMonth(year+"-"+(i < 10 ? "0" + i : "" + i));
+                for (AcctRecord acctrecord : list) {
+                    if(acctrecord.getDate().equals(billDto.getMonth())){
+                        billDto.setIncome(BudgetEnum.INCOME.getCode().equals(acctrecord.getBudgetType())?acctrecord.getAmount():"0");
+                        billDto.setExpend(BudgetEnum.EXPEND.getCode().equals(acctrecord.getBudgetType())?acctrecord.getAmount():"0");
+                        String balance = new BigDecimal(billDto.getIncome()).subtract(new BigDecimal(billDto.getExpend())).toString();
+                        billDto.setBalance(balance);
+                        recorded = true;
+                    }
+                }
+                if(!recorded){
+                    billDto.setIncome("0");
+                    billDto.setExpend("0");
+                    billDto.setBalance("0");
+                }
+                bill.add(billDto);
             }
+        }else if(BillTypeEnum.ALL.getCode().equals(billType)){
+            //获取所有有记账记录月份的账单
             for (AcctRecord acctrecord : list) {
-
-
+                BillDto billDto = new BillDto();
+                billDto.setMonth(acctrecord.getDate());
+                billDto.setIncome(BudgetEnum.INCOME.getCode().equals(acctrecord.getBudgetType())?acctrecord.getAmount():"0");
+                billDto.setExpend(BudgetEnum.EXPEND.getCode().equals(acctrecord.getBudgetType())?acctrecord.getAmount():"0");
+                String balance = new BigDecimal(billDto.getIncome()).subtract(new BigDecimal(billDto.getExpend())).toString();
+                billDto.setBalance(balance);
+                bill.add(billDto);
             }
         }
-        return list;
+        return bill;
     }
 
 }

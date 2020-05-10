@@ -3,8 +3,12 @@ package com.edu.nchu.controller.user;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.edu.nchu.entity.User;
 import com.edu.nchu.service.user.UserService;
+import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 
@@ -68,6 +73,7 @@ public class UserController {
         return "redirect:loginOut";
     }
 
+
     @RequestMapping("/updateUserInfo")
     private String updateUserInfo(@RequestParam("profile") MultipartFile profile,
                                   @RequestParam("acct") String acct,
@@ -76,20 +82,25 @@ public class UserController {
                                   @RequestParam("phone") String phone,
                                   @RequestParam("email") String email,
                                   RedirectAttributes redirectAttributes,
-                                  HttpSession session) {
-        User user = userService.getUserByAcct(acct);
+                                  HttpSession session){        User user = userService.getUserByAcct(acct);
         user.setNickname(nickname);
         user.setSex(sex);
         user.setPhone(phone);
         user.setEmail(email);
         user.setProfile(StringUtils.isEmpty(user.getProfile()) ? "" : user.getProfile());
         String fileName = System.currentTimeMillis() + profile.getOriginalFilename();
-        String filePath = "C:\\Users\\msmw\\IdeaProjects\\personal-accounting\\consumer\\src\\main\\resources\\static\\images\\profiles\\";
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String filePath = new File(path.getAbsolutePath(), "static/images/profiles").getAbsolutePath();
         String suffix = profile.getContentType().toLowerCase();
         suffix = suffix.substring(suffix.lastIndexOf("/") + 1);
         if (!StringUtils.isEmpty(profile.getOriginalFilename())) {
             if ("jpeg".equals(suffix) || "png".equals(suffix) || "gif".equals(suffix)) {
-                File dest = new File(filePath + fileName);
+                File dest = new File(filePath + File.separator+fileName);
                 try {
                     profile.transferTo(dest);
                     user.setProfile(fileName);

@@ -34,17 +34,23 @@ public class AccountingController {
     private RecordService recordService;
 
     @RequestMapping("/addRecord")
-    private String addRecord(){
+    private String addRecord(HttpServletRequest request,
+                             Map<String,Object> map){
+        if(!StringUtils.isEmpty(request.getParameter("msg"))){
+            map.put("msg",request.getParameter("msg"));
+        }
         return "accounting/addRecord";
     }
 
     @PostMapping("/addRecord")
     private String addRecord(AcctRecord acctRecord,
-                             HttpSession session){
+                             HttpSession session,
+                             RedirectAttributes redirectAttributes){
         User user = (User) session.getAttribute("user");
         acctRecord.setAcct(user.getAcct());
         recordService.addRecord(acctRecord);
-        return "index";
+        redirectAttributes.addAttribute("msg","记账成功！");
+        return "redirect:addRecord";
     }
 
     @RequestMapping("/allRecords")
@@ -111,7 +117,8 @@ public class AccountingController {
                           HttpSession session,
                           Map<String,Object> map){
         User user = (User) session.getAttribute("user");
-        recordService.getBill(billType,user.getAcct());
-        return "myBill";
+        map.put("user",user);
+        map.put("bill",recordService.getBill(billType,user.getAcct()));
+        return "user/myBill";
     }
 }

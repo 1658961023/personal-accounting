@@ -47,11 +47,11 @@
                 </thead>
                 <tbody>
                 <tr class="cen" th:each="record:${records}">
-                    <td name="td0" th:text="${record.budgetType}==0?'收入':'支出'"></td>
-                    <td name="td1" th:text="${record.category}"></td>
-                    <td name="td2" th:text="${record.amount}"></td>
-                    <td name="td3" th:text="${record.date}"></td>
-                    <td name="td4" th:text="${record.summary}"></td>
+                    <td name="td0" th:text="${record.budgetType}==0?'收入':'支出'" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
+                    <td name="td1" th:text="${record.category}" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
+                    <td name="td2" th:text="${record.amount}" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
+                    <td name="td3" th:text="${record.date}" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
+                    <td name="td4" th:text="${record.summary}" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
                     <td>
                         <a th:href="@{editRecord?serialNo=}+${record.serialNo}" title="编辑">编辑</a>
                         <a th:href="@{deleteRecord?serialNo=}+${record.serialNo}" title="删除">删除</a>

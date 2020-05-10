@@ -1,5 +1,6 @@
 package com.edu.nchu.service.accounting;
 
+import com.edu.nchu.DTO.BillDto;
 import com.edu.nchu.entity.AcctRecord;
 
 import java.util.List;
@@ -33,6 +34,6 @@ public interface RecordService {
 
     List<AcctRecord> selectAll(String acct);
 
-    List<AcctRecord> getBill(String billType,String acct);
+    List<BillDto> getBill(String billType, String acct);
 }
 

@@ -143,7 +143,7 @@
   </select>
     <select id="getBill" resultType="com.edu.nchu.entity.AcctRecord">
       select
-      serial_no, budget_type, category, sum(amount) as amount, substr(date,1,7) as date, summary, acct
+      serial_no, budget_type as budget_type, category, sum(amount) as amount, substr(date,1,7) as date, summary, acct
         from t_acct_record
         where acct=#{param1}
         group by substr(date,1,7),budget_type order by amount desc

@@ -2,15 +2,9 @@ package com.edu.nchu.service.user;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.edu.nchu.DTO.CategoryDto;
-import com.edu.nchu.entity.Budget;
-import com.edu.nchu.entity.Category;
-import com.edu.nchu.entity.Target;
-import com.edu.nchu.entity.User;
+import com.edu.nchu.entity.*;
 import com.edu.nchu.entity.enums.DateTypeEnum;
-import com.edu.nchu.mapper.BudgetMapper;
-import com.edu.nchu.mapper.CategoryMapper;
-import com.edu.nchu.mapper.TargetMapper;
-import com.edu.nchu.mapper.UserMapper;
+import com.edu.nchu.mapper.*;
 import com.edu.nchu.util.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
@@ -43,6 +37,9 @@ public class RegisteServiceImpl implements RegisteService {
     @Autowired
     private TargetMapper targetMapper;
 
+    @Autowired
+    private VirtualAcctMapper virtualAcctMapper;
+
     @Override
     public String register(String acct, String password, String nickname) {
         if (ObjectUtils.isEmpty(userMapper.selectByAcct(acct))) {
@@ -53,7 +50,7 @@ public class RegisteServiceImpl implements RegisteService {
             user.setNickname(nickname);
             userMapper.insertSelective(user);
             //新建系统默认分类
-            List<CategoryDto> categories = MyUtils.transEnumToList();
+            List<CategoryDto> categories = MyUtils.transCategoryEnumToList();
             for (CategoryDto category : categories) {
                 Category category1 = new Category();
                 category1.setName(category.getName());
@@ -78,6 +75,17 @@ public class RegisteServiceImpl implements RegisteService {
             target.setTotalAmount("0");
             target.setDateType(DateTypeEnum.MONTH.getCode());
             targetMapper.insert(target);
+            //新用户创建虚拟五个账户,余额都为0
+            List<String> virAccts = MyUtils.transPayEnumToList();
+            for (String virAcct : virAccts) {
+                VirtualAcct virtualAcct = new VirtualAcct();
+                virtualAcct.setAcct(acct);
+                virtualAcct.setAcctName(virAcct);
+                virtualAcct.setIncome("0");
+                virtualAcct.setExpend("0");
+                virtualAcct.setBalance("0");
+                virtualAcctMapper.insert(virtualAcct);
+            }
             return "redirect:login";
         }
         //账号重复，无法注册

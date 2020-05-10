@@ -1,5 +1,7 @@
 package com.edu.nchu.DTO;
 
+import java.io.Serializable;
+
 /*********************************************************
  @author guoff16201210
   * <p> 文件名称： CategoryDto
@@ -10,7 +12,7 @@ package com.edu.nchu.DTO;
   * <p> 开发时间：2020/5/5 上午 11:31
   * <p> 修改记录：程序版本	修改日期	修改人员	修改单号	修改说明
  *********************************************************/
-public class CategoryDto {
+public class CategoryDto implements Serializable {
 
     private String name;
 

@@ -26,6 +26,9 @@ public class AcctRecord extends BaseRowModel implements Serializable{
     @ExcelProperty(value = "备注",index = 5)
     private String summary;
 
+    @ExcelProperty(value = "支付方式", index = 6)
+    private String pay;
+
     private String acct;
 
     public String getSerialNo() {
@@ -82,5 +85,13 @@ public class AcctRecord extends BaseRowModel implements Serializable{
 
     public void setAcct(String acct) {
         this.acct = acct;
+    }
+
+    public String getPay() {
+        return pay;
+    }
+
+    public void setPay(String pay) {
+        this.pay = pay;
     }
 }

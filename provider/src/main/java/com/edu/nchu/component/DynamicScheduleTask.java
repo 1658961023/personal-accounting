@@ -15,7 +15,6 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -83,7 +82,7 @@ public class DynamicScheduleTask implements SchedulingConfigurer {
                         targetMapper.updateAllTargets();
                         logger.info("当前日期:"+today+" 为每个月第一天，需要重置预算目标值");
                     }else {
-                        logger.info("当前日期:"+today+"为每个月第一天，不需要重置预算目标值");
+                        logger.info("当前日期:"+today+"不为每个月第一天，不需要重置预算目标值");
                     }
                     cronMapper.updateToday(today);
                     logger.info("执行动态定时任务: " + LocalDateTime.now().toLocalTime());},

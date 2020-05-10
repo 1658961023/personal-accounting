@@ -4,6 +4,7 @@ import com.edu.nchu.DTO.CategoryDto;
 import com.edu.nchu.entity.Category;
 import com.edu.nchu.entity.enums.CategoryEnum;
 import com.edu.nchu.entity.enums.MyEnum;
+import com.edu.nchu.entity.enums.PayEnum;
 import sun.security.validator.ValidatorException;
 
 import java.math.BigDecimal;
@@ -47,7 +48,7 @@ public class MyUtils {
         return convertSuccess;
     }
 
-    public static List<CategoryDto> transEnumToList(){
+    public static List<CategoryDto> transCategoryEnumToList(){
         List<CategoryDto> list = new ArrayList<>();
 
         // 将枚举存放到list里面
@@ -56,6 +57,16 @@ public class MyUtils {
             categoryDto.setName(categoryEnum.getName());
             categoryDto.setBudgetType(categoryEnum.getBudgetType());
             list.add(categoryDto);
+        }
+        return list;
+    }
+
+    public static List<String> transPayEnumToList(){
+        List<String> list = new ArrayList<>();
+
+        // 将枚举存放到list里面
+        for (PayEnum payEnum : PayEnum.values()) {
+            list.add(payEnum.getName());
         }
         return list;
     }

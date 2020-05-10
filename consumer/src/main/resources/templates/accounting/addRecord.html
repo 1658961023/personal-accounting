@@ -3,8 +3,6 @@
 <head>
     <meta charset="utf-8"/>
     <title>个人在线记账系统</title>
-    <meta name="keywords" content="设置关键词..."/>
-    <meta name="description" content="设置描述..."/>
     <meta name="author" content="DeathGhost"/>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
@@ -14,8 +12,6 @@
     <script th:src="@{javascript/plug-ins/customScrollbar.min.js}"></script>
     <script th:src="@{javascript/plug-ins/echarts.min.js}"></script>
     <script th:src="@{javascript/plug-ins/layerUi/layer.js}"></script>
-    <script th:src="@{editor/ueditor.config.js}"></script>
-    <script th:src="@{editor/ueditor.all.js}"></script>
     <script th:src="@{javascript/plug-ins/pagination.js}"></script>
     <script th:src="@{javascript/pages/getCategory.js}"></script>
     <script th:src="@{javascript/pages/recordCheck.js}"></script>
@@ -33,6 +29,7 @@
             <section class="page-hd">
                 <header>
                     <h2 class="title">记一笔账^-^</h2>
+                    <input type="hidden" id="msg" th:value="${msg}" th:if="${not #strings.isEmpty(msg)}">
                 </header>
                 <hr>
             </section>
@@ -59,6 +56,13 @@
                 </div>
                 <div class="form-group-col-2">
                     <div class="form-label">分类：</div>
+                    <div class="form-cont">
+                        <select th:name="category" id="category" style="width:auto;">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-col-2">
+                    <div class="form-label">支付方式：</div>
                     <div class="form-cont">
                         <select th:name="category" id="category" style="width:auto;">
                         </select>

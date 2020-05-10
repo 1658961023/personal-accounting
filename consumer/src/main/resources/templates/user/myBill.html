@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>我的账单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <link rel="icon" th:href="@{images/icon/favicon.ico}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}"/>
+    <script th:src="@{javascript/jquery.js}"></script>
+    <script th:src="@{javascript/plug-ins/customScrollbar.min.js}"></script>
+    <script th:src="@{javascript/plug-ins/echarts.min.js}"></script>
+    <script th:src="@{javascript/plug-ins/layerUi/layer.js}"></script>
+    <script th:src="@{javascript/plug-ins/pagination.js}"></script>
+    <script th:src="@{javascript/public.js}"></script>
+    <script th:src="@{javascript/pages/public.js}"></script>
+</head>
+<body>
+<div class="main-wrap">
+    <div class="side-nav" th:insert="~{user/userInfo::part_side}">
+    </div>
+    <div class="content-wrap">
+        <header class="top-hd" th:insert="~{user/userInfo::part_top}">
+        </header>
+        <main class="main-cont content mCustomScrollbar">
+            <!--开始::内容-->
+            <div class="page-wrap">
+                <blockquote class="blockquote mb-20">
+                    我的账单
+                </blockquote>
+                <select th:name="category" id="billType" style="width:auto;">
+                    <option th:value="0">本年</option>
+                    <option th:value="1">全部</option>
+                </select>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>月份</th>
+                        <th>收入</th>
+                        <th>支出</th>
+                        <th>结余</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="cen" th:each="billDto:${bill}">
+                        <td th:text="${billDto.month}"></td>
+                        <td th:text="${billDto.income}"></td>
+                        <td th:text="${billDto.expend}"></td>
+                        <td th:text="${billDto.balance}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--开始::结束-->
+        </main>
+    </div>
+</div>
+</body>
+</html>

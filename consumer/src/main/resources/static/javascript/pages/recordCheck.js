@@ -1,11 +1,14 @@
 $(function () {
    $('#record').click(function () {
+       var budgetType = $('input:radio[name="budgetType"]:checked').val();
        var amount = $('#amount').val();
        var category = $('#category').val();
        var date = $('#date').val();
-       if(isNaN(amount)){
+       if(budgetType===''||budgetType===null||budgetType===undefined){
+           alert("收支类型必选")
+       }else if(isNaN(amount)){
            alert("金额必须为数字")
-       }else if(amount===''||+amount<0){
+       }else if(amount===''||+amount<=0){
            alert("金额必输且大于零")
        }else if(category===null||category===''){
            alert("分类必选")

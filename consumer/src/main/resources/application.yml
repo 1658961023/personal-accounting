@@ -4,7 +4,7 @@ server:
 spring:
   dubbo:
     application:
-      name: springboot-dubbo-demo
+      name: consumer
     registry:
       address: zookeeper://localhost
       port: 2181

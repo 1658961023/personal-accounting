@@ -51,7 +51,7 @@ public class MyUtils {
     public static List<CategoryDto> transCategoryEnumToList(){
         List<CategoryDto> list = new ArrayList<>();
 
-        // 将枚举存放到list里面
+        // 将分类枚举存放到list里面
         for (CategoryEnum categoryEnum : CategoryEnum.values()) {
             CategoryDto categoryDto = new CategoryDto();
             categoryDto.setName(categoryEnum.getName());
@@ -64,7 +64,7 @@ public class MyUtils {
     public static List<String> transPayEnumToList(){
         List<String> list = new ArrayList<>();
 
-        // 将枚举存放到list里面
+        // 将账户枚举存放到list里面
         for (PayEnum payEnum : PayEnum.values()) {
             list.add(payEnum.getName());
         }

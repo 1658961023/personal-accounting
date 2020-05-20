@@ -2,7 +2,10 @@ package com.edu.nchu.controller.user;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.edu.nchu.entity.User;
+import com.edu.nchu.entity.VirtualAcct;
+import com.edu.nchu.entity.enums.PayEnum;
 import com.edu.nchu.service.user.UserService;
+import com.edu.nchu.service.user.VirtualAcctService;
 import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
@@ -19,6 +22,8 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 /*********************************************************
@@ -36,6 +41,9 @@ public class UserController {
 
     @Reference
     private UserService userService;
+
+    @Reference
+    private VirtualAcctService virtualAcctService;
 
     @RequestMapping("/userInfo")
     private String userInfo(HttpSession session,
@@ -82,7 +90,8 @@ public class UserController {
                                   @RequestParam("phone") String phone,
                                   @RequestParam("email") String email,
                                   RedirectAttributes redirectAttributes,
-                                  HttpSession session){        User user = userService.getUserByAcct(acct);
+                                  HttpSession session){
+        User user = userService.getUserByAcct(acct);
         user.setNickname(nickname);
         user.setSex(sex);
         user.setPhone(phone);
@@ -117,5 +126,21 @@ public class UserController {
         userService.updateSelective(user);
         session.setAttribute("user", user);
         return "redirect:userInfo";
+    }
+
+    @RequestMapping("/virtualAcct")
+    private String myVirtualAcct(HttpSession session,
+                                 Map<String,Object> map){
+        User user = (User) session.getAttribute("user");
+        List<VirtualAcct> virtualAccts = virtualAcctService.getAccts(user.getAcct());
+        BigDecimal sumBalance = new BigDecimal(0);
+        for (VirtualAcct virtualAcct : virtualAccts) {
+            virtualAcct.setAcctName(PayEnum.getDescByName(virtualAcct.getAcctName()));
+            sumBalance = sumBalance.add(new BigDecimal(virtualAcct.getBalance()));
+        }
+        map.put("sumBalance",sumBalance.toString());
+        map.put("accts",virtualAccts);
+        map.put("user",user);
+        return "user/virtualAcct";
     }
 }

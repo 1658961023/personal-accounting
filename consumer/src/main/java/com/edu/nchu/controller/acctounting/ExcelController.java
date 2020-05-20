@@ -10,6 +10,7 @@ import com.edu.nchu.entity.AcctRecord;
 import com.edu.nchu.entity.Category;
 import com.edu.nchu.entity.User;
 import com.edu.nchu.entity.enums.BudgetEnum;
+import com.edu.nchu.entity.enums.PayEnum;
 import com.edu.nchu.service.accounting.RecordService;
 import com.edu.nchu.service.category.CategoryService;
 import com.edu.nchu.util.MyUtils;
@@ -27,7 +28,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /*********************************************************
  @author guoff16201210
@@ -63,9 +66,13 @@ public class ExcelController {
             User user = (User) session.getAttribute("user");
             List<AcctRecord> records = recordService.selectAll(user.getAcct());
             for (AcctRecord record : records) {
-                record.setBudgetType(BudgetEnum.INCOME.getCode().equals(record.getBudgetType())?"收入":"支出");
+                record.setBudgetType(BudgetEnum.INCOME.getCode().equals(record.getBudgetType()) ? "收入" : "支出");
+                record.setPay(PayEnum.getDescByName(record.getPay()));
             }
-            EasyExcel.write(response.getOutputStream(), AcctRecord.class).sheet("记账流水").doWrite(records);
+            //排除用户列
+            Set<String> excludeColumnFiledNames = new HashSet<String>();
+            excludeColumnFiledNames.add("acct");
+            EasyExcel.write(response.getOutputStream(), AcctRecord.class).excludeColumnFiledNames(excludeColumnFiledNames).sheet("记账流水").doWrite(records);
             writer.finish();
             outputStream.flush();
         } catch (IOException e) {
@@ -85,10 +92,10 @@ public class ExcelController {
                               RedirectAttributes redirectAttributes,
                               HttpSession session) throws IOException {
         String filename = file.getOriginalFilename();
-        String suffix = filename.substring(filename.lastIndexOf(".")+1);
-        if(!StringUtils.isEmpty(file.getOriginalFilename())){
-            if(!"xls".equals(suffix) && !"xlsx".equals(suffix)){
-                redirectAttributes.addAttribute("msg","上传文件格式不正确，仅支持.xls,xlsx");
+        String suffix = filename.substring(filename.lastIndexOf(".") + 1);
+        if (!StringUtils.isEmpty(file.getOriginalFilename())) {
+            if (!"xls".equals(suffix) && !"xlsx".equals(suffix)) {
+                redirectAttributes.addAttribute("msg", "上传文件格式不正确，仅支持.xls,xlsx");
                 return "redirect:allRecords";
             }
         }
@@ -104,7 +111,7 @@ public class ExcelController {
         User user = (User) session.getAttribute("user");
 
         //转换数据类型,并插入到数据库
-        for (int i=1;i<list.size();i++) {
+        for (int i = 1; i < list.size(); i++) {
             AcctRecord record = new AcctRecord();
             record.setAcct(user.getAcct());
             record.setBudgetType(list.get(i).get(0));
@@ -112,8 +119,9 @@ public class ExcelController {
             record.setAmount((list.get(i).get(2)));
             record.setDate(list.get(i).get(3));
             record.setSummary(list.get(i).get(4));
-            if(!"success".equals(checkRecord(record))){
-                redirectAttributes.addAttribute("msg",checkRecord(record));
+            record.setPay(list.get(i).get(5));
+            if (!"success".equals(checkRecord(record))) {
+                redirectAttributes.addAttribute("msg", checkRecord(record));
                 return "redirect:allRecords";
             }
             recordService.addRecord(record);
@@ -122,21 +130,24 @@ public class ExcelController {
         return "redirect:allRecords";
     }
 
-    private String checkRecord(AcctRecord acctRecord){
-        List<Category> categories = categoryService.getCategoryByType(acctRecord.getBudgetType(),acctRecord.getAcct());
+    private String checkRecord(AcctRecord acctRecord) {
+        List<Category> categories = categoryService.getCategoryByType(acctRecord.getBudgetType(), acctRecord.getAcct());
         List<String> names = new ArrayList<>();
+        List<String> pays = MyUtils.transPayEnumToList();
         for (Category category : categories) {
             names.add(category.getName());
         }
-        if(!BudgetEnum.INCOME.getCode().equals(acctRecord.getBudgetType()) && !BudgetEnum.EXPEND.getCode().equals(acctRecord.getBudgetType())){
+        if (!BudgetEnum.INCOME.getCode().equals(acctRecord.getBudgetType()) && !BudgetEnum.EXPEND.getCode().equals(acctRecord.getBudgetType())) {
             return "收支类型格式不正确，0:收入，1:支出";
-        }else if (!names.contains(acctRecord.getCategory())){
+        } else if (!names.contains(acctRecord.getCategory())) {
             return "分类不存在";
-        }else if(!MyUtils.isNumeric(acctRecord.getAmount())){
+        } else if (!MyUtils.isNumeric(acctRecord.getAmount())) {
             return "金额必须为数字";
-        }else if(!MyUtils.isValidDate(acctRecord.getDate())){
+        } else if (!MyUtils.isValidDate(acctRecord.getDate())) {
             return "日期不正确，格式为yyyy-MM-dd";
-        }else {
+        } else if (!pays.contains(acctRecord.getPay())) {
+            return "账户不在范围内，范围1:支付宝,2:微信,3:现金,4:储蓄卡,5:信用卡";
+        } else {
             return "success";
         }
     }

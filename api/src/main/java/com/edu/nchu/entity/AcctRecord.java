@@ -26,7 +26,7 @@ public class AcctRecord extends BaseRowModel implements Serializable{
     @ExcelProperty(value = "备注",index = 5)
     private String summary;
 
-    @ExcelProperty(value = "支付方式", index = 6)
+    @ExcelProperty(value = "账户", index = 6)
     private String pay;
 
     private String acct;

@@ -8,10 +8,11 @@
     <result column="amount" property="amount" jdbcType="INTEGER" />
     <result column="date" property="date" jdbcType="DATE" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="pay" property="pay" jdbcType="VARCHAR" />
     <result column="acct" property="acct" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    serial_no, budget_type, category, amount, date, summary, acct
+    serial_no, budget_type, category, amount, date, summary, pay, acct
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -25,9 +26,10 @@
   </delete>
   <insert id="insert" parameterType="com.edu.nchu.entity.AcctRecord" >
     insert into t_acct_record (serial_no, budget_type, category, 
-      amount, date, summary, acct)
+      amount, date, summary, pay, acct)
     values (#{serialNo,jdbcType=VARCHAR}, #{budgetType,jdbcType=SMALLINT}, #{category,jdbcType=VARCHAR}, 
-      #{amount,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{summary,jdbcType=VARCHAR}, #{acct,jdbcType=VARCHAR})
+      #{amount,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{summary,jdbcType=VARCHAR}, #{pay,jdbcType=VARCHAR},
+      #{acct,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.edu.nchu.entity.AcctRecord" >
     insert into t_acct_record
@@ -49,6 +51,9 @@
       </if>
       <if test="summary != null" >
         summary,
+      </if>
+      <if test="pay != null" >
+        pay,
       </if>
       <if test="acct != null">
         acct,
@@ -73,6 +78,9 @@
       <if test="summary != null" >
         #{summary,jdbcType=VARCHAR},
       </if>
+      <if test="pay != null" >
+          #{pay,jdbcType=VARCHAR},
+      </if>
       <if test="acct != null" >
         #{acct,jdbcType=VARCHAR},
       </if>
@@ -96,6 +104,9 @@
       <if test="summary != null" >
         summary = #{summary,jdbcType=VARCHAR},
       </if>
+      <if test="pay != null" >
+          pay = #{pay,jdbcType=VARCHAR},
+      </if>
       <if test="acct != null" >
         acct = #{acct,jdbcType=VARCHAR},
       </if>
@@ -109,22 +120,35 @@
       amount = #{amount,jdbcType=INTEGER},
       date = #{date,jdbcType=DATE},
       summary = #{summary,jdbcType=VARCHAR},
+      pay = #{pay,jdbcType=VARCHAR},
       acct = #{acct,jdbcType=VARCHAR}
     where serial_no = #{serialNo,jdbcType=VARCHAR}
   </update>
   <select id="selectPage" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from t_acct_record where acct=#{param3}
-    order by date desc limit #{param1},#{param2}
+    from t_acct_record where acct=#{param5}
+    <if test="param1!=null and param1!=''">
+      and budget_type=#{param1}
+    </if>
+    <if test="param2!=null and param2!=''">
+      and substr(date,1,7)=#{param2}
+    </if>
+    order by date desc limit #{param3},#{param4}
 
   </select>
   <select id="getCount" resultType="java.lang.Integer">
-    select count(*) from t_acct_record where acct=#{param1}
+    select count(*) from t_acct_record where acct=#{param3}
+    <if test="param1!=null and param1!=''">
+      and budget_type=#{param1}
+    </if>
+    <if test="param2!=null and param2!=''">
+      and substr(date,1,7)=#{param2}
+    </if>
   </select>
   <select id="getChartData" resultMap="BaseResultMap">
   select
-  serial_no,budget_type,category,sum(amount) as amount,date,summary
+  serial_no,budget_type,category,sum(amount) as amount,date, pay, summary
   from t_acct_record
   where acct=#{acct}
   <if test="month!=null and month!='' ">
@@ -143,7 +167,7 @@
   </select>
     <select id="getBill" resultType="com.edu.nchu.entity.AcctRecord">
       select
-      serial_no, budget_type as budget_type, category, sum(amount) as amount, substr(date,1,7) as date, summary, acct
+      serial_no, budget_type as budget_type, category, sum(amount) as amount, substr(date,1,7) as date, summary, pay, acct
         from t_acct_record
         where acct=#{param1}
         group by substr(date,1,7),budget_type order by amount desc

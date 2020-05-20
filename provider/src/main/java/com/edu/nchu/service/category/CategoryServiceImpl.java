@@ -45,6 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public int getCount(String acct) {
-        return categoryMapper.getCount(acct)/10+1;
+        Integer count = (int) Math.ceil(categoryMapper.getCount(acct)*1.0/10);
+        return count>0?count:1;
     }
 }

@@ -3,7 +3,9 @@ package com.edu.nchu.controller.acctounting;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.edu.nchu.entity.AcctRecord;
 import com.edu.nchu.entity.User;
+import com.edu.nchu.entity.enums.PayEnum;
 import com.edu.nchu.service.accounting.RecordService;
+import com.edu.nchu.service.category.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,9 @@ public class AccountingController {
     @Reference
     private RecordService recordService;
 
+    @Reference
+    private CategoryService categoryService;
+
     @RequestMapping("/addRecord")
     private String addRecord(HttpServletRequest request,
                              Map<String,Object> map){
@@ -59,19 +64,27 @@ public class AccountingController {
         if(!StringUtils.isEmpty(request.getParameter("msg"))){
             redirectAttributes.addAttribute("msg",request.getParameter("msg"));
         }
-        return "redirect:allRecordsPage?curPage=1&pagesize=10";
+        return "redirect:allRecordsPage?budgetType=&month=&curPage=1&pagesize=10";
     }
 
     @RequestMapping("/allRecordsPage")
-    private String allRecords(@RequestParam int curPage,
+    private String allRecords(@RequestParam String budgetType,
+                              @RequestParam String month,
+                              @RequestParam int curPage,
                               @RequestParam int pagesize,
                               Map<String,Object> map,
                               HttpServletRequest request,
                               HttpSession session){
         User user = (User) session.getAttribute("user");
-        map.put("count",recordService.getCount(user.getAcct()));
+        map.put("budgetType",budgetType);
+        map.put("month",month);
+        map.put("count",recordService.getCount(budgetType,month,user.getAcct()));
         map.put("curPage",curPage);
-        map.put("records",recordService.getRecordsPage((curPage-1)*pagesize,pagesize,user.getAcct()));
+        List<AcctRecord> records = recordService.getRecordsPage(budgetType,month,(curPage-1)*pagesize,pagesize,user.getAcct());
+        for (AcctRecord record : records) {
+            record.setPay(PayEnum.getDescByName(record.getPay()));
+        }
+        map.put("records",records);
         if(!StringUtils.isEmpty(request.getParameter("msg"))){
             map.put("msg",request.getParameter("msg"));
         }
@@ -87,7 +100,9 @@ public class AccountingController {
     @RequestMapping("/editRecord")
     private String edit(@RequestParam String serialNo,
                         Map<String,Object> map){
-        map.put("record",recordService.getByPrimaryKey(serialNo));
+        AcctRecord record = recordService.getByPrimaryKey(serialNo);
+        map.put("record",record);
+        map.put("categories",categoryService.getCategoryByType(record.getBudgetType(),record.getAcct()));
         return "accounting/editRecord";
     }
 
@@ -118,6 +133,7 @@ public class AccountingController {
                           Map<String,Object> map){
         User user = (User) session.getAttribute("user");
         map.put("user",user);
+        map.put("billType",billType);
         map.put("bill",recordService.getBill(billType,user.getAcct()));
         return "user/myBill";
     }

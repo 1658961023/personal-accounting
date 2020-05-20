@@ -1,6 +1,8 @@
 package com.edu.nchu.entity;
 
-public class VirtualAcct {
+import java.io.Serializable;
+
+public class VirtualAcct implements Serializable {
     private Integer id;
 
     private String acctName;

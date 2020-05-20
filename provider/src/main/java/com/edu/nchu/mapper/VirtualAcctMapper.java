@@ -3,8 +3,11 @@ package com.edu.nchu.mapper;
 import com.edu.nchu.entity.VirtualAcct;
 import com.edu.nchu.entity.VirtualAcctExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface VirtualAcctMapper {
     int countByExample(VirtualAcctExample example);
 

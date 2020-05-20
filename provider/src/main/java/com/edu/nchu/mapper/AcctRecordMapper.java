@@ -23,9 +23,9 @@ public interface AcctRecordMapper {
 
     int updateByPrimaryKey(AcctRecord record);
 
-    List<AcctRecord> selectPage(int start,int pagesize,String acct);
+    List<AcctRecord> selectPage(String budgetType,String month,int start,int pagesize,String acct);
 
-    int getCount(String acct);
+    int getCount(String budgetType,String month,String acct);
 
     List<AcctRecord> getChartData(@Param("month") String month, @Param("budgetType") String budgetType, @Param("chartType") String chartType,@Param("acct") String acct);
 

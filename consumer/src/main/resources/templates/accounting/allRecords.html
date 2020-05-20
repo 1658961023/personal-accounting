@@ -9,8 +9,6 @@
     <script th:src="@{javascript/plug-ins/customScrollbar.min.js}"></script>
     <script th:src="@{javascript/plug-ins/echarts.min.js}"></script>
     <script th:src="@{javascript/plug-ins/layerUi/layer.js}"></script>
-    <script th:src="@{editor/ueditor.config.js}"></script>
-    <script th:src="@{editor/ueditor.all.js}"></script>
     <script th:src="@{javascript/plug-ins/pagination.js}"></script>
     <script th:src="@{javascript/public.js}"></script>
     <script th:src="@{javascript/pages/pager.js}"></script>
@@ -33,6 +31,15 @@
                 <button id="open_btn" class="btn btn-secondary radius">导入Excel</button>
                 <input type="hidden" id="msg" th:value="${msg}" th:if="${not #strings.isEmpty(msg)}">
                 </span>
+                <span style="float:right;">
+                    <select id="budgetType" style="width: auto">
+                        <option th:value="2">全部</option>
+                        <option th:value="0" th:selected="${budgetType=='0'}">收入</option>
+                        <option th:value="1" th:selected="${budgetType=='1'}">支出</option>
+                    </select>
+                    <input id="month" type="month" th:value="${month}">
+                    <button class="btn btn-primary radius" id="recordSearch">查询</button>
+                </span>
             </section>
             <table class="table table-bordered table-striped table-hover">
                 <thead>
@@ -41,6 +48,7 @@
                     <th >分类 <i id="th1" onclick="SortTable(this)" class="strAs" style="display:inline-block;width: 16px;height:15px;background-image: url(/images/icon/sort.png);"></i></th>
                     <th >金额 <i id="th2" onclick="SortTable(this)" class="numAs" style="display:inline-block;width: 16px;height:15px;background-image: url(/images/icon/sort.png);"></i></th>
                     <th >日期 <i id="th3" onclick="SortTable(this)" class="strAs" style="display:inline-block;width: 16px;height:15px;background-image: url(/images/icon/sort.png);"></i></th>
+                    <th >账户 <i id="th4" onclick="SortTable(this)" class="strAs" style="display:inline-block;width: 16px;height:15px;background-image: url(/images/icon/sort.png);"></i></th>
                     <th >备注 </th>
                     <th>操作</th>
                 </tr>
@@ -51,7 +59,8 @@
                     <td name="td1" th:text="${record.category}" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
                     <td name="td2" th:text="${record.amount}" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
                     <td name="td3" th:text="${record.date}" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
-                    <td name="td4" th:text="${record.summary}" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
+                    <td name="td4" th:text="${record.pay}" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
+                    <td name="td5" th:text="${record.summary}" th:style="${record.budgetType}==0?'color:green':'color:red' "></td>
                     <td>
                         <a th:href="@{editRecord?serialNo=}+${record.serialNo}" title="编辑">编辑</a>
                         <a th:href="@{deleteRecord?serialNo=}+${record.serialNo}" title="删除">删除</a>
@@ -67,7 +76,7 @@
                         <a id="last" class="nextPage">上一页</a>
                         <span th:each="i:${#numbers.sequence(1,count)}">
                             <span th:if="${curPage eq i}" class="current">[[${i}]]</span>
-                            <a th:unless="${curPage eq i}" th:text="${i}" th:href="@{'allRecordsPage?curPage='+${i}+'&pagesize=10'}" class="pcdNumber"></a>
+                            <a th:unless="${curPage eq i}" th:text="${i}" th:href="@{'allRecordsPage?budgetType='+${budgetType}+'&month='+${month}+'&curPage='+${i}+'&pagesize=10'}" class="pcdNumber"></a>
                         </span>
                         <a id="next" class="nextPage">下一页</a>
                     </div>

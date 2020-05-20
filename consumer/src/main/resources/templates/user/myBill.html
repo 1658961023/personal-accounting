@@ -28,9 +28,9 @@
                 <blockquote class="blockquote mb-20">
                     我的账单
                 </blockquote>
-                <select th:name="category" id="billType" style="width:auto;">
-                    <option th:value="0">本年</option>
-                    <option th:value="1">全部</option>
+                <select th:name="billType" id="billType" style="width:auto;">
+                    <option th:value="0" th:selected="${billType=='0'}">本年</option>
+                    <option th:value="1" th:selected="${billType=='1'}">全部</option>
                 </select>
                 <table class="table table-bordered table-striped table-hover">
                     <thead>

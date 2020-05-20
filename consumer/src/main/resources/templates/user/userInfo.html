@@ -39,6 +39,9 @@
             <h2>
                 <a href="myBill?billType=0" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/zhangdan.png)"></i>我的账单</a>
             </h2>
+            <h2>
+                <a href="virtualAcct" class="InitialPage"><i style="vertical-align:middle;display:inline-block;width: 32px;height:32px;background-image: url(/images/icon/zhanghu.png)"></i>虚拟账户</a>
+            </h2>
         </nav>
     </div>
     <div class="content-wrap">
@@ -92,7 +95,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group-col-2">
-                                            <div class="form-label">昵称：</div>
+                                            <div class="form-label">* 昵称：</div>
                                             <div class="form-cont">
                                                 <input type="text" id="nickname" th:name="nickname" th:value="${user.nickname}"
                                                        class="form-control form-boxed"
@@ -100,7 +103,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group-col-2">
-                                            <div class="form-label">性别：</div>
+                                            <div class="form-label">* 性别：</div>
                                             <div class="form-cont">
                                                 <label class="radio">
                                                     <input type="radio" th:name="sex" th:value="0" th:checked="${user.sex}==0"/>

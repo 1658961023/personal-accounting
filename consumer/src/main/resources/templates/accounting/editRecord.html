@@ -30,17 +30,18 @@
         </header>
         <main class="main-cont content mCustomScrollbar">
             <!--开始::内容-->
-            <form th:action="editRecordDo" method="post">
+            <form th:action="editRecordDo" id="recordForm" method="post">
                 <div class="form-group-col-2">
                     <input type="hidden" th:name="serialNo" th:value="${record.serialNo}">
+                    <input type="hidden" th:name="acct" th:value="${record.acct}">
                     <div class="form-label">收支类型：</div>
                     <div class="form-cont">
                         <label class="radio">
-                            <input type="radio" th:name="budgetType" th:value="0" checked="checked"/>
+                            <input type="radio" th:name="budgetType" th:value="0" th:checked="${record.budgetType=='0'}"/>
                             <span>收入</span>
                         </label>
                         <label class="radio">
-                            <input type="radio" th:name="budgetType" th:value="1"/>
+                            <input type="radio" th:name="budgetType" th:value="1" th:checked="${record.budgetType=='1'}"/>
                             <span>支出</span>
                         </label>
                     </div>
@@ -55,6 +56,19 @@
                     <div class="form-label">分类：</div>
                     <div class="form-cont">
                         <select th:name="category" id="category" style="width:auto;">
+                            <option th:selected="${record.category eq c.name}" th:each="c:${categories}" th:value="${c.name}" th:text="${c.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-col-2">
+                    <div class="form-label">账户：</div>
+                    <div class="form-cont">
+                        <select th:name="pay" id="pay" style="width:auto;">
+                            <option th:value="1" th:selected="${record.pay=='1'}">支付宝</option>
+                            <option th:value="2" th:selected="${record.pay=='2'}">微信支付</option>
+                            <option th:value="3" th:selected="${record.pay=='3'}">现金</option>
+                            <option th:value="4" th:selected="${record.pay=='4'}">储蓄卡</option>
+                            <option th:value="5" th:selected="${record.pay=='5'}">信用卡</option>
                         </select>
                     </div>
                 </div>
@@ -73,7 +87,7 @@
                 <div class="form-group-col-2">
                     <div class="form-label"></div>
                     <div class="form-cont">
-                        <input type="submit" class="btn btn-primary" value="修改" />
+                        <input type="button" id="record" class="btn btn-primary" value="修改" />
                     </div>
                 </div>
             </form>
